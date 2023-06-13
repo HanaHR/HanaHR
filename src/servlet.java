@@ -13,7 +13,13 @@ public class servlet extends HttpServlet {
 
         response.setContentType("text/html;charset=utf-8");
         PrintWriter out = response.getWriter();
-        out.print("<h1>MyServlet!<h1>");
+
+        String adminId = request.getParameter("adminId");
+        String adminPw = request.getParameter("adminPw");
+
+        System.out.println(adminId);
+        System.out.println(adminPw);
+
     }
 }
 
