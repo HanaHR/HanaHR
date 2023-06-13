@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 
 @WebServlet("/hello")
 public class servlet extends HttpServlet {
+
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         response.setContentType("text/html;charset=utf-8");
