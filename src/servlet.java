@@ -7,9 +7,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 
-@WebServlet("/hello")
+@WebServlet("/login")
 public class servlet extends HttpServlet {
-
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         response.setContentType("text/html;charset=utf-8");
@@ -17,3 +16,4 @@ public class servlet extends HttpServlet {
         out.print("<h1>MyServlet!<h1>");
     }
 }
+
