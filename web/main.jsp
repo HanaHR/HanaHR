@@ -5,6 +5,7 @@
   Time: 오후 5:27
   To change this template use File | Settings | File Templates.
 --%>
+<<<<<<< HEAD
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -245,3 +246,19 @@
 </footer>
 </body>
 </html>
+=======
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+
+
+
+<% out.print("자바 코드다 이게"); %>
+
+<html>
+<head>
+    <title>Title</title>
+</head>
+<body>
+    main 페이지 입니다. 지원자 정보 조회가 가능합니다.
+</body>
+</html>
+>>>>>>> main
