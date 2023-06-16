@@ -6,11 +6,28 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
+    private static final long serialVersionUID = 1L;
+    private Connection connection;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hanahr?useUnicode=true&characterEncoding=utf8", "root", "1234");
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException {
 
@@ -45,7 +62,7 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("관리자",adminId);
 
-            response.sendRedirect("main.jsp");
+            response.sendRedirect("candidateStatus.jsp");
         }
 
         // 로그인 실패 시 index.jsp
