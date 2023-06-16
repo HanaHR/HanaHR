@@ -1,91 +1,97 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: 하나로H014
-  Date: 2023-06-13
-  Time: 오후 3:36
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
-<style>
-  .input-box{
-    position:relative;
-    margin:10px 0;
-  }
-
-  .input-box > input{
-    background:transparent;
-    border:none;
-    border-bottom: solid 1px #ccc;
-    padding:20px 0px 5px 0px;
-    font-size:14pt;
-    width:100%;
-  }
-
-  input::placeholder{
-    color:transparent;
-  }
-
-  input:placeholder-shown + label{
-    color:#aaa;
-    font-size:14pt;
-    top:15px;
-  }
-
-  input:focus + label, label{
-    color:#8aa1a1;
-    font-size:10pt;
-    pointer-events: none;
-    position: absolute;
-    left:0px;
-    top:0px;
-    transition: all 0.2s ease ;
-    -webkit-transition: all 0.2s ease;
-    -moz-transition: all 0.2s ease;
-    -o-transition: all 0.2s ease;
-  }
-
-  input:focus, input:not(:placeholder-shown){
-    border-bottom: solid 1px #8aa1a1;
-    outline:none;
-  }
-
-
-
-
-</style>
 <head>
-  <title>Title</title>
-</head>
-<body>
-<html>
-<head>
-  <meta name="viewport" content="width=device-width, height=device-height, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0">
-</head>
-<body>
-<header>
-  <h2>Login</h2>
-</header>
 
-<form action="login" method="POST">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-  <div class="input-box">
-    <input id="username" type="text" name="adminId" placeholder="아이디">
-    <label for="username">아이디</label>
+  <title>SB Admin 2 - Login</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link
+          href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-gradient-primary">
+
+<form action="login" method="post">
+<div class="container">
+
+  <!-- Outer Row -->
+  <div class="row justify-content-center">
+
+    <div class="col-xl-10 col-lg-12 col-md-9">
+
+      <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+          <!-- Nested Row within Card Body -->
+          <div class="row">
+            <div class="col-lg-6 d-none d-lg-block bg-login-image">
+
+            </div>
+            <div class="col-lg-6">
+              <div class="p-5">
+                <div class="text-center">
+                  <h1 class="h4 text-gray-900 mb-4">Admin Login</h1>
+                </div>
+                <form class="user">
+                  <div class="form-group">
+                    <input type="text" class="form-control form-control-user"
+                           placeholder="id" name = "adminId">
+                  </div>
+                  <div class="form-group">
+                    <input type="password" class="form-control form-control-user"
+                            placeholder="Password" name ="adminPw">
+                  </div>
+
+                  <input type="submit" value="Login">
+                  </a>
+
+
+
+                </form>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
   </div>
 
-  <div class="input-box">
-    <input id="password" type="password" name="adminPw" placeholder="비밀번호">
-    <label for="password">비밀번호</label>
-  </div>
-
-  <input type="submit" value="로그인">
+</div>
 
 </form>
+<!-- Bootstrap core JavaScript-->
+<script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="${pageContext.request.contextPath}/resources/vendor/chart.js/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="${pageContext.request.contextPath}/resources/js/demo/chart-area-demo.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/demo/chart-pie-demo.js"></script>
 
 </body>
-</html>
 
-</body>
 </html>
