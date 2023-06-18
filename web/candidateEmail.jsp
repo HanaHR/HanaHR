@@ -1,5 +1,18 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.sql.*" %>
+<%@ page import="com.hanaHR.web.DB1" %>
+<%@ page import="com.hanaHR.web.EmailUtils" %>
+<%@ page import="com.hanaHR.web.Rq" %>
+<%--결과 메시지 표시--%>
+<%
+    String resultMessage = (String) request.getAttribute("resultMessage");
+    if (resultMessage != null) {
+        out.println("<div class='alert alert-success'>" + resultMessage + "</div>");
+    }
+%>
+
+
 <!DOCTYPE html>
-<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
 <html lang="en">
 
 <head>
@@ -27,6 +40,64 @@
 </head>
 
 <body id="page-top">
+
+<%
+    // 사용자가 선택한 조건 받기
+    String selection1 = request.getParameter("selection1"); // 전형 분류
+    String selection2 = request.getParameter("selection2"); // 지원자 분류
+
+
+// 데이터베이스 연결
+    Connection connection = DB1.getConnection();
+    PreparedStatement statement = null;
+    ResultSet resultSet = null;
+
+    try {
+        // 조건에 맞는 지원자들의 이메일 주소를 가져오는 쿼리 작성
+        String query = "SELECT email FROM applicants WHERE condition1 = ? AND condition2 = ?";
+        statement = connection.prepareStatement(query);
+        statement.setString(1, selection1);
+        statement.setString(2, selection2);
+
+        // 쿼리 실행
+        resultSet = statement.executeQuery();
+
+        // 이메일 전송 로직
+        while (resultSet.next()) {
+            String email = resultSet.getString("email");
+            String subject = "메일 제목";
+            String content = "메일 내용";
+            EmailUtils.sendEmail(email, subject, content);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        // 리소스 해제
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (statement != null) {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+%>
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -104,25 +175,25 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="${pageContext.request.contextPath}/resources/login.html">Login</a>
-                        <a class="collapse-item" href="${pageContext.request.contextPath}/resources/register.html">Register</a>
-                        <a class="collapse-item" href="${pageContext.request.contextPath}/resources/forgot-password.html">Forgot Password</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="${pageContext.request.contextPath}/resources/404.html">404 Page</a>
-                        <a class="collapse-item" href="${pageContext.request.contextPath}/resources/blank.html">Blank Page</a>
-                    </div>
-                </div>
-            </li>
+<%--            <li class="nav-item">--%>
+<%--                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"--%>
+<%--                    aria-expanded="true" aria-controls="collapsePages">--%>
+<%--                    <i class="fas fa-fw fa-folder"></i>--%>
+<%--                    <span>Pages</span>--%>
+<%--                </a>--%>
+<%--                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">--%>
+<%--                    <div class="bg-white py-2 collapse-inner rounded">--%>
+<%--                        <h6 class="collapse-header">Login Screens:</h6>--%>
+<%--                        <a class="collapse-item" href="${pageContext.request.contextPath}/resources/login.html">Login</a>--%>
+<%--                        <a class="collapse-item" href="${pageContext.request.contextPath}/resources/register.html">Register</a>--%>
+<%--                        <a class="collapse-item" href="${pageContext.request.contextPath}/resources/forgot-password.html">Forgot Password</a>--%>
+<%--                        <div class="collapse-divider"></div>--%>
+<%--                        <h6 class="collapse-header">Other Pages:</h6>--%>
+<%--                        <a class="collapse-item" href="${pageContext.request.contextPath}/resources/404.html">404 Page</a>--%>
+<%--                        <a class="collapse-item" href="${pageContext.request.contextPath}/resources/blank.html">Blank Page</a>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </li>--%>
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
@@ -414,7 +485,8 @@
 
                                 <div class="row g-3">
                                     <div class="col-md-6">
-                                        <label for="validationCustom03" class="form-label">메일 제목</label>
+                                        <%--나중에 label 안에 for="validationCustom03" 추가 유무 따지기--%>
+                                        <label class="form-label">메일 제목</label>
                                         <input type="text" class="form-control" id="validationCustom06" required>
                                         <div class="invalid-feedback">
                                             Please enter a message in the textarea.
@@ -426,7 +498,8 @@
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <br />
-                                        <label for="validationCustom03" class="form-label">메일 내용</label>
+                                        <%--나중에 label 안에 for="validationCustom03" 추가 유무 따지기--%>
+                                        <label class="form-label">메일 내용</label>
                                         <textarea class="form-control" id="validationCustom07" required></textarea>
                                         <div class="invalid-feedback">
                                             Please enter a message in the textarea.
@@ -532,5 +605,6 @@
             crossorigin="anonymous"
     </script>
 </body>
+
 
 </html>
