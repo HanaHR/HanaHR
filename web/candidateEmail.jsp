@@ -512,6 +512,7 @@
                                         // 이메일 전송 로직
                                         while (resultSet.next()) {
                                             String email = resultSet.getString("memberEmail");
+
                                             EmailUtils.sendEmail(email, emailSubject, emailContent);
                                         }
                                     } catch (SQLException e) {
