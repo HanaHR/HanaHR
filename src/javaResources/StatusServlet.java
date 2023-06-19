@@ -11,7 +11,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-
+//g
 @WebServlet("/candidateStatus")
 public class StatusServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;

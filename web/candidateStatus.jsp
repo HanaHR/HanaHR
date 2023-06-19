@@ -29,6 +29,9 @@
     <!-- Custom styles for this page -->
     <link href="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <style>
+        .col-md-5 {
+            flex: 0;
+        }
         #dataTable_info {
             display: none;
         }
@@ -200,6 +203,7 @@
                         <div class="card-header py-3"> <!-- 회색 부분 -->
                             <div class="d-flex align-items-center">
                                 <h6 class="h6 mb-0 text-gray-800">총 지원자 수</h6>
+                                &nbsp;
                                 <input type="text" id="StatusBox" name="StatusBox" class="form-control" style="width: 10rem;" value="<%=request.getAttribute("rst1")%>">
                             </div>
                             <br>
@@ -248,7 +252,7 @@
                                 <% List<Map<String, String>> result = (List<Map<String, String>>)request.getAttribute("rst2"); %>
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
-                                        <tr style="font-size: 14px">
+                                        <tr style="font-size: 10px">
                                             <th>지원자 번호</th>
                                             <th>이름</th>
                                             <th>전공 유무</th>
@@ -265,7 +269,7 @@
                                         </tr>
                                     </thead>
                                     <tfoot>
-                                        <tr style="font-size: 14px">
+                                        <tr style="font-size: 10px">
                                             <th>지원자 번호</th>
                                             <th>이름</th>
                                             <th>전공 유무</th>
