@@ -46,7 +46,7 @@ public class MemberServlet extends HttpServlet {
         String process = request.getParameter("process");
         String headCount = request.getParameter("headCount");
 
-        UserDAO dao = new UserDAO();
+        PasserDAO dao = new PasserDAO();
         List<Map<String, String>> findResult = dao.pickPasser(process, headCount);
         request.setAttribute("passer", findResult);
         dao.updatePasser(findResult, process, headCount);
