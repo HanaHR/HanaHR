@@ -5,32 +5,32 @@ public class ScoreDTO {
     private int memberWrittenScore;
     private int memberInterview1Score;
     private int memberInterview2Score;
-    private Boolean memberPaperPass;
-    private Boolean memberWrittenPass;
-    private Boolean memberInterview1Pass;
-    private Boolean memberInterview2Pass;
-    public Boolean getMemberPaperPass() {
+    private int memberPaperPass;
+    private int memberWrittenPass;
+    private int memberInterview1Pass;
+    private int memberInterview2Pass;
+    public int getMemberPaperPass() {
         return memberPaperPass;
     }
-    public void setMemberPaperPass(Boolean memberPaperPass) {
+    public void setMemberPaperPass(int memberPaperPass) {
         this.memberPaperPass = memberPaperPass;
     }
-    public Boolean getMemberWrittenPass() {
+    public int getMemberWrittenPass() {
         return memberWrittenPass;
     }
-    public void setMemberWrittenPass(Boolean memberWrittenPass) {
+    public void setMemberWrittenPass(int memberWrittenPass) {
         this.memberWrittenPass = memberWrittenPass;
     }
-    public Boolean getMemberInterview1Pass() {
+    public int getMemberInterview1Pass() {
         return memberInterview1Pass;
     }
-    public void setMemberInterview1Pass(Boolean memberInterview1Pass) {
+    public void setMemberInterview1Pass(int memberInterview1Pass) {
         this.memberInterview1Pass = memberInterview1Pass;
     }
-    public Boolean getMemberInterview2Pass() {
+    public int getMemberInterview2Pass() {
         return memberInterview2Pass;
     }
-    public void setMemberInterview2Pass(Boolean memberInterview2Pass) {
+    public void setMemberInterview2Pass(int memberInterview2Pass) {
         this.memberInterview2Pass = memberInterview2Pass;
     }
     public int getMemberNumber() {
