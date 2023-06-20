@@ -318,9 +318,10 @@
 
                                 </tbody>
                             </table>
-                            <h2>편집 하기</h2>
+
                             <% if (searchResults != null && !searchResults.isEmpty()) { %>
                             <% for (User user : searchResults) { %>
+                            <h2>편집 하기</h2>
                             <form action="/updateCandidate" method="post" accept-charset="UTF-8">
                             <table >
                                 <tr>
