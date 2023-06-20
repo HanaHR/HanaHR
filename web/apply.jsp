@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -5,120 +6,145 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>회원가입</title>
-  <link rel="stylesheet" href="./test.css">
+  <title>지원서 작성</title>
+
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
   <style>
+    body {
+      min-height: 100vh;
 
-    div {
-
-      position: absolute;
-
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      width: 670px;
-      height: 960px;
-      background: #FFFFFF;
-      border: 1px solid #AACDFF;
-      box-shadow: 7px 7px 39px rgba(0, 104, 255, 0.25);
-      border-radius: 20px;
-
-      margin: 0px;
-      padding: 100px;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      flex-wrap: nowrap;
+      background: -webkit-gradient(linear, left bottom, right top, from(#92b5db), to(#1d466c));
+      background: -webkit-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
+      background: -moz-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
+      background: -o-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
+      background: linear-gradient(to top right, #92b5db 0%, #1d466c 100%);
     }
 
-    h2 {
-      width: 466px;
-      height: 94px;
-      left: 725px;
-      top: 132px;
+    .input-form {
+      max-width: 680px;
 
-      font-family: 'Noto Sans CJK KR';
-      font-style: normal;
-      font-weight: 700;
-      font-size: 32px;
-      line-height: 47px;
+      margin-top: 80px;
+      padding: 32px;
 
-      color: #0068FF;
-      justify-content: space-evenly;
-
-
-    }
-
-    button {
-      width: 400px;
-      height: 50px;
-      left: 725px;
-      top: 875px;
-      background-color: #FFFFFF;
-      color: royalblue;
-      border-radius: 8px;
-      border: #0068FF solid 1px;
-    }
-
-    input {
-      padding: 0px;
-      border: none;
-      border-bottom: 1px solid #CFCFCF;
-      width: 466px;
-      height: 30px;
-    }
-
-    label {
-      color: lightgrey;
-    }
-
-    .radio {
-      align-items: center;
-      font-size: 20pt;
-      width: 15px;
-      height: 15px;
-    }
-
-    input.agree {
-      align-items: center;
-      font-size: 20pt;
-      width: 15px;
-      height: 15px;
+      background: #fff;
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      border-radius: 10px;
+      -webkit-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+      -moz-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+      box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
     }
   </style>
 </head>
 
-<body>
-<div>
-  <div class="container">
-    <h2>회원가입을 위해<br>정보를 입력해주세요.</h2>
 
-    <label for="email">* 이메일<br>
-      <input type="text" id="email"><br><br>
-    </label>
-    <label for="name">* 이름<br>
-      <input type="text" id="name"><br><br>
-    </label>
-    <label for="password1">* 비밀번호<br>
-      <input class="pw" id="password1" type="password"><br><br>
-    </label>
-    <label for="password2">* 비밀번호 확인<br>
-      <input class="pw" id="password2" type="password"><br><br> </label>
-    <form>
-      <input type="radio" class="radio" name="gender">&nbsp 여성
-      <input type="radio" class="radio" name="gender">&nbsp 남성
-    </form>
-    <br><br>
-    <form>
-      <input type="checkbox" class="agree">&nbsp 이용약관 개인정보 수집 및 정보이용에 동의합니다.
-    </form>
-    <hr>
-    <hr>
-    <button>가입하기</button>
+<form action="apply" method="post">
+
+<body>
+<div class="container">
+  <div class="input-form-backgroud row">
+    <div class="input-form col-md-12 mx-auto">
+      <h4 class="mb-3">지원서 작성</h4>
+      <form class="validation-form" novalidate>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="name">이름</label>
+            <input type="text" class="form-control" id="name" placeholder="홍길동" value="" required name = "name">
+            <div class="invalid-feedback">
+              이름을 입력해주세요.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="email">이메일</label>
+            <input type="email" class="form-control" id="email" placeholder="you@example.com" required name="email">
+            <div class="invalid-feedback">
+              이메일을 입력해주세요.
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="nickname">성별</label>
+            <input type="text" class="form-control" id="nickname" placeholder="" value="남/여" required name="gender">
+            <div class="invalid-feedback">
+              성별을 입력해주세요.
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-8 mb-3">
+            <label for="root">경력</label>
+            <select class="custom-select d-block w-100" id="root" name = "career">
+
+              <option value="yes">있음</option>
+              <option value="no">없음</option>
+            </select>
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-8 mb-3">
+            <label for="root">전공 여부</label>
+            <select class="custom-select d-block w-100" name = "major">
+
+              <option value="yes">전공</option>
+              <option value="no">비전공</option>
+            </select>
+
+          </div>
+        </div>
+
+
+
+
+        <div class="mb-3">
+          <label for="address">생년월일</label>
+          <input type="text" class="form-control" placeholder="199x-xx-xx" required name = "birth">
+          <div class="invalid-feedback">
+            생년월일을 입력해주세요
+          </div>
+        </div>
+
+
+
+        <div class="mb-3">
+          <label for="address">주소</label>
+          <input type="text" class="form-control" id="address" placeholder="xx시 xx구" required name = "address">
+          <div class="invalid-feedback">
+            주소를 입력해주세요.
+          </div>
+        </div>
+
+
+        <div class="mb-3">
+          <label for="address">휴대폰 번호</label>
+          <input type="text" class="form-control"  placeholder="010-xxxx-xxxx" required name = "phone">
+          <div class="invalid-feedback">
+            휴대폰 번호를 입력해주세요
+          </div>
+        </div>
+
+
+        <hr class="mb-4">
+
+        <div class="mb-4"></div>
+        <input type="submit" value="지원서 제출"></button>
+      </form>
+    </div>
   </div>
+  <footer class="my-3 text-center text-small">
+    <p class="mb-1"></p>
+  </footer>
 </div>
+
+
 </body>
 
+</form>
 </html>
-
