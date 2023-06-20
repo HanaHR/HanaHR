@@ -9,8 +9,8 @@ public class EmailUtils {
 
     public static void sendEmail(String recipient, String subject, String content) {
         // 발신자 계정 정보 설정
-        String senderEmail = "lanikang.319@gmail.com"; // 발신자 이메일 주소
-        String senderPassword = "H*kmksk0301!"; // 발신자 이메일 계정 비밀번호
+        String senderEmail = "kebhanaroHR@gmail.com"; // 발신자 이메일 주소
+        String senderPassword = "awwucbrqszkubqmt"; // 발신자 이메일 계정 비밀번호
 
         // SMTP 서버 설정
         String smtpHost = "smtp.gmail.com"; // SMTP 서버 호스트
