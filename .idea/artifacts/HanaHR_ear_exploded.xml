@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="exploded-ear" name="HanaHR:ear exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/HanaHR_ear_exploded</output-path>
-    <root id="root">
-      <element id="javaee-facet-resources" facet="HanaHR/javaeeApplication/javaEEApplication" />
-    </root>
-  </artifact>
-</component>
