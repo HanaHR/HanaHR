@@ -29,6 +29,9 @@ public class LoginServlet extends HttpServlet {
         String adminId = request.getParameter("adminId");
         String adminPw = request.getParameter("adminPw");
 
+
+        System.out.println(adminId);
+        System.out.println(adminPw);
         // DB에서 관리자 ID,PW 가져와서 비교하기
 
 

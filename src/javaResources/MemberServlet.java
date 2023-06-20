@@ -30,6 +30,13 @@ public class MemberServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        String process = request.getParameter("process");
+//        String headCount = request.getParameter("headCount");
+//
+//        UserDAO dao = new UserDAO();
+//        List<Map<String, String>> selectedPasser = dao.pickPasser(process, headCount);
+//        dao.updatePasser(selectedPasser, process, headCount);
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("candidatePick.jsp");
         dispatcher.forward(request, response);
     }
@@ -42,8 +49,12 @@ public class MemberServlet extends HttpServlet {
         UserDAO dao = new UserDAO();
         List<Map<String, String>> findResult = dao.pickPasser(process, headCount);
         request.setAttribute("passer", findResult);
+        dao.updatePasser(findResult, process, headCount);
+
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("candidatePick.jsp");
         dispatcher.forward(request, response);
     }
 }
+
+

@@ -3,9 +3,7 @@
 <%@page contentType="text/html; charset=utf-8" %>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,6 +20,31 @@
 
     <!-- Custom styles for this template-->
     <link href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <style>
+        .col-md-5 {
+            flex: 0;
+        }
+        #dataTable_info {
+            visibility: hidden;
+        }
+    </style>
+    <!-- Bootstrap core JavaScript-->
+    <script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="${pageContext.request.contextPath}/resources/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="${pageContext.request.contextPath}/resources/js/demo/datatables-demo.js"></script>
 </head>
 
 <body id="page-top">
@@ -37,103 +60,51 @@
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-laugh-wink"></i>
             </div>
-            <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+            <div class="sidebar-brand-text mx-3"> 하나 인사관리 ERP </div>
         </a>
 
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
 
-        <!-- Nav Item - Dashboard -->
+        <!-- Nav Item - Charts -->
         <li class="nav-item">
-            <a class="nav-link" href="index.html">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Dashboard</span></a>
+            <a class="nav-link" href="candidateStatus.jsp">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+                    <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
+                </svg>
+                <span>지원 현황</span></a>
         </li>
 
         <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Interface
-        </div>
+        <hr class="sidebar-divider my-0">
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>Components</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+                    <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
+                </svg>
+                <span>지원자 관리</span>
             </a>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Custom Components:</h6>
-                    <a class="collapse-item" href="buttons.html">Buttons</a>
-                    <a class="collapse-item" href="cards.html">Cards</a>
-                </div>
-            </div>
-        </li>
-
-        <!-- Nav Item - Utilities Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-               aria-expanded="true" aria-controls="collapseUtilities">
-                <i class="fas fa-fw fa-wrench"></i>
-                <span>Utilities</span>
-            </a>
-            <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                 data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Custom Utilities:</h6>
-                    <a class="collapse-item" href="utilities-color.html">Colors</a>
-                    <a class="collapse-item" href="utilities-border.html">Borders</a>
-                    <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                    <a class="collapse-item" href="utilities-other.html">Other</a>
+                    <a class="collapse-item" href="candidatePick.jsp">합격자 선정</a>
+                    <a class="collapse-item" href="candidateEmail.jsp">메일 전송</a>
                 </div>
             </div>
         </li>
 
         <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Addons
-        </div>
-
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-               aria-expanded="true" aria-controls="collapsePages">
-                <i class="fas fa-fw fa-folder"></i>
-                <span>Pages</span>
-            </a>
-            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Login Screens:</h6>
-                    <a class="collapse-item" href="login.html">Login</a>
-                    <a class="collapse-item" href="register.html">Register</a>
-                    <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                    <div class="collapse-divider"></div>
-                    <h6 class="collapse-header">Other Pages:</h6>
-                    <a class="collapse-item" href="404.html">404 Page</a>
-                    <a class="collapse-item" href="blank.html">Blank Page</a>
-                </div>
-            </div>
-        </li>
+        <hr class="sidebar-divider my-0">
 
         <!-- Nav Item - Charts -->
         <li class="nav-item">
-            <a class="nav-link" href="charts.html">
-                <i class="fas fa-fw fa-chart-area"></i>
-                <span>Charts</span></a>
-        </li>
-
-        <!-- Nav Item - Tables -->
-        <li class="nav-item active">
-            <a class="nav-link" href="tables.html">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Tables</span></a>
+            <a class="nav-link" href="candidateUpdate.jsp">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+                    <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
+                </svg>
+                <span>지원자 정보 수정</span></a>
         </li>
 
         <!-- Divider -->
@@ -166,10 +137,10 @@
                         <h1 class="h3 mb-2 text-gray-800">합격자 선정</h1>
                         <p class="mb-4">진행중인 전형을 선택하고, 선발 인원을 입력하여 합격자를 추가합니다.</p>
                         <hr>
-                        <form action="/pick" method="post">
+                        <form action="/pick" method="post" id="picker">
                             <label>
                                 전형분류
-                                <select name="process" class="custom-select custom-select-sm form-control form-control-sm">
+                                <select name="process" class="custom-select custom-select-sm form-control form-control-sm" id="processSelector">
                                     <option value="memberPaperScore"> 서류전형 </option>
                                     <option value="memberWrittenScore"> 필기전형 </option>
                                     <option value="memberInterview1Score"> 1차면접전형 </option>
@@ -177,12 +148,47 @@
                                 </select>
                             </label>
                             <label> 선발인원
-                                <input type="text" name="headCount" class="form-control form-control-sm">
+                                <input type="text" name="headCount" class="form-control form-control-sm" id="headCountInput">
                             </label>
-                            <input type="submit" id="search" value="검색" class="page-link" style="display: inline-block">
-                            <input type="button" id="appendPasser" value="합격자 추가" class="page-link" style="display: inline-block">
+                            <input type="submit" id="search" value="검색" class="page-link" style="display: inline-block" onclick="saveValue()">
+                            <input type="submit" id="appendPasser" value="합격자 추가" class="page-link" style="display: inline-block" onclick="removeValue()">
+                            <script>
+                                window.onload = function() {
+                                    var selectedProcess = document.getElementById("processSelector");
+                                    var headCountInput = document.getElementById("headCountInput");
+                                    var storedProcess = localStorage.getItem("process");
+                                    var storedCount = localStorage.getItem("count");
+                                    if (storedProcess){
+                                        selectedProcess.value = storedProcess;
+                                    }
+                                    if (storedCount){
+                                        headCountInput.value = storedCount;
+                                    }
+                                }
+                            </script>
                         </form>
                     </div>
+                    <script>
+                        function saveValue() {
+                            var selectedProcess = document.getElementById("processSelector");
+                            var headCountInput = document.getElementById("headCountInput");
+
+                            var selectedVal = selectedProcess.value;
+                            var inputCount = headCountInput.value;
+
+                            if (inputCount === ""){
+                                alert("선발 인원을 입력해주세요");
+                            }
+
+                            localStorage.setItem("process", selectedVal);
+                            localStorage.setItem("count", inputCount);
+                        }
+                        function removeValue() {
+                            localStorage.removeItem("process");
+                            localStorage.removeItem("count");
+                        }
+
+                    </script>
                     <div class="card-body">
                         <div class="table-responsive">
                             <% List<Map<String, String>> passer = (List<Map<String, String>>)request.getAttribute("passer"); %>
@@ -232,52 +238,6 @@
                                         <td><%= psr.get("2차면접합격여부").equals("0") ? "불합격" : psr.get("2차면접합격여부").equals("1") ? "합격" : "미진행" %></td>
                                     </tr>
                                     <% } %>
-<%--                                <tr>--%>
-<%--                                    <td>1</td>--%>
-<%--                                    <td>김하나</td>--%>
-<%--                                    <td>전공자</td>--%>
-<%--                                    <td>010-1234-1234</td>--%>
-<%--                                    <td>apple@naver.com</td>--%>
-<%--                                    <td>90</td>--%>
-<%--                                    <td>합격</td>--%>
-<%--                                    <td>85</td>--%>
-<%--                                    <td>합격</td>--%>
-<%--                                    <td>88</td>--%>
-<%--                                    <td>합격</td>--%>
-<%--                                    <td>null</td>--%>
-<%--                                    <td>null</td>--%>
-<%--                                </tr>--%>
-<%--                                <tr>--%>
-<%--                                    <td>2</td>--%>
-<%--                                    <td>이두리</td>--%>
-<%--                                    <td>전공자</td>--%>
-<%--                                    <td>010-1234-5678</td>--%>
-<%--                                    <td>banana@naver.com</td>--%>
-<%--                                    <td>70</td>--%>
-<%--                                    <td>합격</td>--%>
-<%--                                    <td>80</td>--%>
-<%--                                    <td>합격</td>--%>
-<%--                                    <td>55</td>--%>
-<%--                                    <td>불합격</td>--%>
-<%--                                    <td>null</td>--%>
-<%--                                    <td>null</td>--%>
-<%--                                </tr>--%>
-<%--                                <tr>--%>
-<%--                                    <td>3</td>--%>
-<%--                                    <td>박삼이</td>--%>
-<%--                                    <td>비전공자</td>--%>
-<%--                                    <td>010-1234-9876</td>--%>
-<%--                                    <td>candy@naver.com</td>--%>
-<%--                                    <td>50</td>--%>
-<%--                                    <td>불합격</td>--%>
-<%--                                    <td>null</td>--%>
-<%--                                    <td>null</td>--%>
-<%--                                    <td>null</td>--%>
-<%--                                    <td>null</td>--%>
-<%--                                    <td>null</td>--%>
-<%--                                    <td>null</td>--%>
-<%--                                </tr>--%>
-
                                 </tbody>
                             </table>
                         </div>
@@ -331,22 +291,7 @@
     </div>
 </div>
 
-<!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-<!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
-
-<!-- Page level plugins -->
-<script src="vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-<!-- Page level custom scripts -->
-<script src="js/demo/datatables-demo.js"></script>
 
 </body>
 
