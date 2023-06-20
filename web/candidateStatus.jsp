@@ -1,4 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+         pageEncoding="utf-8"%>
+<%@page import="java.net.URLEncoder"%>
+<%
+    request.setCharacterEncoding("UTF-8");
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,7 +28,14 @@
 
     <!-- Custom styles for this page -->
     <link href="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
+    <style>
+        .col-md-5 {
+            flex: 0;
+        }
+        #dataTable_info {
+            display: none;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -146,7 +160,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="${pageContext.request.contextPath}/resources/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -184,16 +198,17 @@
 <%--                    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.--%>
 <%--                        For more information about DataTables, please visit the <a target="_blank"--%>
 <%--                            href="https://datatables.net">official DataTables documentation</a>.</p>--%>
-
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3"> <!-- 회색 부분 -->
                             <div class="d-flex align-items-center">
                                 <h6 class="h6 mb-0 text-gray-800">총 지원자 수</h6>
                                 &nbsp;
-                                <input type="text" id="StatusBox" name="StatusBox" class="form-control" style="width: 10rem;">
+                                <input type="text" id="StatusBox" name="StatusBox" class="form-control" style="width: 10rem;" value="<%=request.getAttribute("rst1")%>">
                             </div>
                             <br>
+
+                            <% List<Map<String, String>> result2 = (List<Map<String, String>>)request.getAttribute("rst3"); %>
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
@@ -205,68 +220,90 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <% for ( Map<String, String> rs2 : result2) { %>
                                 <tr>
                                     <th scope="row">평균 점수</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td> <%= rs2.get("서류전형") %> </td>  <!--서류 평균점수-->
+                                    <td> <%= rs2.get("필기전형") %> </td>
+                                    <td> <%= rs2.get("1차면접점수") %> </td>
+                                    <td> <%= rs2.get("2차면접점수") %> </td>
                                 </tr>
+                                <% } %>
                                 <tr>
                                     <th scope="row">커트라인</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td> <%=request.getAttribute("result4-1")%> </td>
+                                    <td> <%=request.getAttribute("result4-2")%> </td>
+                                    <td> <%=request.getAttribute("result4-3")%> </td>
+                                    <td> <%=request.getAttribute("result4-4")%> </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">합격률</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td> <%= request.getAttribute("result5-1") %> </td>  <!--서류 평균점수-->
+                                    <td> <%= request.getAttribute("result5-2") %> </td>
+                                    <td> <%= request.getAttribute("result5-3") %> </td>
+                                    <td> <%= request.getAttribute("result5-4") %> </td>
                                 </tr>
+
                                 </tbody>
                             </table>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
+                                <% List<Map<String, String>> result = (List<Map<String, String>>)request.getAttribute("rst2"); %>
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
-                                        <tr style="font-size: 14px">
+                                        <tr style="font-size: 10px">
                                             <th>지원자 번호</th>
                                             <th>이름</th>
                                             <th>전공 유무</th>
                                             <th>전화번호</th>
                                             <th>이메일</th>
-                                            <th>서류전형</th>
-                                            <th>서류합격자</th>
-                                            <th>필기전형</th>
-                                            <th>필기합격유무</th>
+                                            <th>서류점수</th>
+                                            <th>서류합격여부</th>
+                                            <th>필기점수</th>
+                                            <th>필기합격여부</th>
                                             <th>1차면접점수</th>
-                                            <th>1차합격유무</th>
+                                            <th>1차합격여부</th>
                                             <th>2차면접점수</th>
                                             <th>최종합격유무</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
-                                        <tr style="font-size: 14px">
+                                        <tr style="font-size: 10px">
                                             <th>지원자 번호</th>
                                             <th>이름</th>
                                             <th>전공 유무</th>
                                             <th>전화번호</th>
                                             <th>이메일</th>
-                                            <th>서류전형</th>
-                                            <th>서류합격자</th>
-                                            <th>필기전형</th>
-                                            <th>필기합격유무</th>
+                                            <th>서류점수</th>
+                                            <th>서류합격여부</th>
+                                            <th>필기점수</th>
+                                            <th>필기합격여부</th>
                                             <th>1차면접점수</th>
-                                            <th>1차합격유무</th>
+                                            <th>1차합격여부</th>
                                             <th>2차면접점수</th>
                                             <th>최종합격유무</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
+
+                                    <% for ( Map<String, String> rs : result) { %>
+                                    <tr>
+                                        <td><%= rs.get("지원자번호") %></td>
+                                        <td><%= rs.get("이름") %></td>
+                                        <td><%= rs.get("전공유무").equals("0") ? "비전공자" : "전공자" %></td>
+                                        <td><%= rs.get("전화번호") %></td>
+                                        <td><%= rs.get("이메일") %></td>
+                                        <td><%= rs.get("서류점수") %></td>
+                                        <td><%= rs.get("서류합격여부").equals("0") ? "불합격" : rs.get("서류합격여부").equals("1") ? "합격" : "미진행" %></td>
+                                        <td><%= rs.get("필기점수") %></td>
+                                        <td><%= rs.get("필기합격여부").equals("0") ? "불합격" : rs.get("필기합격여부").equals("1") ? "합격" : "미진행" %></td>
+                                        <td><%= rs.get("1차면접점수") %></td>
+                                        <td><%= rs.get("1차면접합격여부").equals("0") ? "불합격" : rs.get("1차면접합격여부").equals("1") ? "합격" : "미진행" %></td>
+                                        <td><%= rs.get("2차면접점수") %></td>
+                                        <td><%= rs.get("2차면접합격여부").equals("0") ? "불합격" : rs.get("2차면접합격여부").equals("1") ? "합격" : "미진행" %></td>
+                                    </tr>
+                                    <% } %>
                                     </tbody>
                                 </table>
                             </div>
