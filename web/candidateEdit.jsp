@@ -20,6 +20,12 @@
 
             display: none;
         }
+        div.dataTables_wrapper div.dataTables_filter {
+            display: none;
+        }
+        div.dataTables_wrapper div.dataTables_length label {
+            display: none;
+        }
 
         input{
             background-color: #fff;
@@ -312,7 +318,7 @@
 
                                 </tbody>
                             </table>
-
+                            <h2>편집 하기</h2>
                             <% if (searchResults != null && !searchResults.isEmpty()) { %>
                             <% for (User user : searchResults) { %>
                             <form action="/updateCandidate" method="post" accept-charset="UTF-8">
@@ -348,7 +354,7 @@
                                                     <option value="false" <%= !user.isMemberInterview2Pass() ? "selected" : "" %>>불합격</option>
                                                 </select></br>
                                                 <input type="hidden" name="memberNumber" value="<%= user.getMemberNumber() %>">
-                                                <button class="btn btn-primary btn-sm" type="submit" style="margin-left: 500px";>수정</button>
+                                                <button class="btn btn-primary btn-sm" type="submit" style="padding: 7px 360px"; onclick="return confirm('수정되었습니다')">edit</button>
                                             </form>
                                         </td>
 
