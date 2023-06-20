@@ -9,67 +9,6 @@
     <meta name="author" content="">
 
     <title>SB Admin 2 - Tables</title>
-    <style>
-        .col-md-5 {
-            flex: 0;
-        }
-        #dataTable_info {
-            display: none;
-        }
-        div.dataTables_wrapper div.dataTables_paginate ul.pagination {
-
-            display: none;
-        }
-
-        input{
-            background-color: #fff;
-            border-radius: 0.8rem;
-            border: 0.1rem solid #ededed;
-            display: inline-block;
-            padding-left: 1.4rem;
-            margin-bottom: 3.5rem;
-            padding-right: 1.4rem;
-            font-size: 1.2rem;
-            height: 5rem;
-            color: #141414;
-            box-shadow: none;
-            transition: border 0.1s ease-in;
-            word-break: normal;
-            word-wrap: normal;
-            width: 180px;
-            height: 50px;
-        }
-        select{
-            background-color: #fff;
-            border-radius: 0.8rem;
-            border: 0.1rem solid #ededed;
-            display: inline-block;
-            padding-left: 1.4rem;
-            margin-bottom: 3.5rem;
-            padding-right: 1.4rem;
-            font-size: 1.2rem;
-            height: 5rem;
-            color: #141414;
-            box-shadow: none;
-            transition: border 0.1s ease-in;
-            word-break: normal;
-            word-wrap: normal;
-            width: 180px;
-            height: 50px;
-        }
-        select:hover{
-            text-decoration: none;
-            border-width: 1px;
-            border-style: solid;
-            border-color: #007e7b;
-        }
-        input:hover {
-            text-decoration: none;
-            border-width: 1px;
-            border-style: solid;
-            border-color: #007e7b;
-        }
-    </style>
 
     <!-- Custom fonts for this template -->
     <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -250,7 +189,7 @@
                             <form action="/candidateSearch.jsp" method="post" accept-charset="UTF-8">
                                 <label for="searchName">Search by Name:</label>
                                 <input type="text" id="searchName" name="searchName">
-                                <button type="submit">검색</button>
+                                <button type="submit">Search</button>
                             </form>
                         </div>
                         <br>
@@ -260,7 +199,7 @@
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                 <tr style="font-size: 14px">
-<%--                                    <th>지원자 번호</th>--%>
+                                    <%--                                    <th>지원자 번호</th>--%>
                                     <th>이름</th>
                                     <th>전공 유무</th>
                                     <th>전화번호</th>
@@ -281,8 +220,7 @@
                                 <% if (searchResults != null && !searchResults.isEmpty()) { %>
                                 <% for (User user : searchResults) { %>
                                 <tr>
-
-<%--                                    <td><%= user.getMemberNumber() %></td>--%>
+                                    <%--                                    <td><%= user.getMemberNumber() %></td>--%>
                                     <td><%= user.getMemberName() %></td>
                                     <td><%= user.isMemberMajor() ? "전공" : "비전공" %></td>
                                     <td><%= user.getMemberPhone() %></td>
@@ -296,11 +234,35 @@
                                     <td><%= user.getMemberInterview2Score() %></td>
                                     <td><%= user.isMemberInterview2Pass() ? "합격" : "불합격" %></td>
                                     <td>
+                                        <!-- 편집 버튼 -->
+                                        <a href="/editCandidate.jsp?id=<%= user.getMemberNumber() %>" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-edit"></i> 편집
+                                        </a>
                                         <!-- 삭제 버튼 -->
-                                        <form action="/deleteCandidate" method="POST">
-                                            <input type="hidden" name="memberNumber" value="<%= user.getMemberNumber() %>">
-                                            <button class="btn btn-danger" type="submit" onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</button>
-                                        </form>
+                                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal<%= user.getMemberNumber() %>">
+                                            <i class="fas fa-trash-alt"></i> 삭제
+                                        </button>
+                                        <!-- 삭제 모달 -->
+                                        <div class="modal fade" id="deleteModal<%= user.getMemberNumber() %>" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel<%= user.getMemberNumber() %>"
+                                             aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="deleteModalLabel<%= user.getMemberNumber() %>">삭제 확인</h5>
+                                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">×</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p><strong><%= user.getMemberName() %></strong> 사용자를 삭제하시겠습니까?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
+                                                        <a class="btn btn-danger" href="/deleteUser.jsp?id=<%= user.getMemberNumber() %>">삭제</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <% } %>
@@ -309,54 +271,8 @@
                                     <td colspan="13">검색 결과가 없습니다.</td>
                                 </tr>
                                 <% } %>
-
                                 </tbody>
                             </table>
-
-                            <% if (searchResults != null && !searchResults.isEmpty()) { %>
-                            <% for (User user : searchResults) { %>
-                            <form action="/updateCandidate" method="post" accept-charset="UTF-8">
-                            <table >
-                                <tr>
-                                        <td>
-                                            <form>
-                                                <input type="text"  name="memberName" value="<%= user.getMemberName() %>">
-                                                <select  name="memberMajor">
-                                                <option value="true" <%= user.isMemberMajor() ? "selected" : "" %>>전공</option>
-                                                <option value="false" <%= !user.isMemberMajor() ? "selected" : "" %>>비전공</option>
-                                            </select>
-                                                <input type="text"  name="memberPhone" value="<%= user.getMemberPhone() %>">
-                                                <input type="text"  name="memberEmail" value="<%= user.getMemberEmail() %>"> </br>
-                                                <input type="text"  name="memberPaperScore" value="<%= user.getMemberPaperScore() %>">
-                                                <select name="memberPaperPass">
-                                                    <option value="true" <%= user.isMemberPaperPass() ? "selected" : "" %>>서류합격</option>
-                                                    <option value="false" <%= !user.isMemberPaperPass() ? "selected" : "" %>>서류탈락</option>
-                                                </select>
-                                                <input type="text"  name="memberWrittenScore" value="<%= user.getMemberWrittenScore() %>">
-                                                <select  name="memberWrittenPass">
-                                                    <option value="true" <%= user.isMemberWrittenPass() ? "selected" : "" %>>필기합격</option>
-                                                    <option value="false" <%= !user.isMemberWrittenPass() ? "selected" : "" %>>불합격</option>
-                                                </select></br>
-                                                <input type="text" name="memberInterview1Score" value="<%= user.getMemberInterview1Score() %>">
-                                                <select name="memberInterview1Pass">
-                                                    <option value="true" <%= user.isMemberInterview1Pass() ? "selected" : "" %>>1차면접합격</option>
-                                                    <option value="false" <%= !user.isMemberInterview1Pass() ? "selected" : "" %>>불합격</option>
-                                                </select>
-                                                <input type="text"  name="memberInterview2Score" value="<%= user.getMemberInterview2Score() %>">
-                                                <select name="memberInterview2Pass">
-                                                    <option value="true" <%= user.isMemberInterview2Pass() ? "selected" : "" %>>최종합격</option>
-                                                    <option value="false" <%= !user.isMemberInterview2Pass() ? "selected" : "" %>>불합격</option>
-                                                </select></br>
-                                                <input type="hidden" name="memberNumber" value="<%= user.getMemberNumber() %>">
-                                                <button class="btn btn-primary btn-sm" type="submit" style="margin-left: 500px";>수정</button>
-                                            </form>
-                                        </td>
-
-                                </tr>
-                                <% } %>
-                            </table>
-                            </form>
-                            <% } %>
                         </div>
                     </div>
                 </div>
