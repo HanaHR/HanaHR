@@ -69,7 +69,7 @@
 
           <div class="col-md-6 mb-3">
             <label for="nickname">성별</label>
-            <input type="text" class="form-control" id="nickname" placeholder="" value="남자" required name="gender">
+            <input type="text" class="form-control" id="nickname" placeholder="" value="남/여" required name="gender">
             <div class="invalid-feedback">
               성별을 입력해주세요.
             </div>
@@ -79,10 +79,10 @@
         <div class="row">
           <div class="col-md-8 mb-3">
             <label for="root">경력</label>
-            <select class="custom-select d-block w-100" id="root">
+            <select class="custom-select d-block w-100" id="root" name = "career">
 
-              <option name="career_yes">있음</option>
-              <option name="career_no">없음</option>
+              <option value="yes">있음</option>
+              <option value="no">없음</option>
             </select>
 
           </div>
@@ -91,10 +91,10 @@
         <div class="row">
           <div class="col-md-8 mb-3">
             <label for="root">전공 여부</label>
-            <select class="custom-select d-block w-100" >
+            <select class="custom-select d-block w-100" name = "major">
 
-              <option name="major_yes">전공</option>
-              <option name="major_no">비전공</option>
+              <option value="yes">전공</option>
+              <option value="no">비전공</option>
             </select>
 
           </div>
@@ -105,9 +105,9 @@
 
         <div class="mb-3">
           <label for="address">생년월일</label>
-          <input type="text" class="form-control" placeholder="199xxxxx" required name = "birth">
+          <input type="text" class="form-control" placeholder="199x-xx-xx" required name = "birth">
           <div class="invalid-feedback">
-            생년월일을 입력해주세요(8글자)
+            생년월일을 입력해주세요
           </div>
         </div>
 
@@ -124,9 +124,9 @@
 
         <div class="mb-3">
           <label for="address">휴대폰 번호</label>
-          <input type="text" class="form-control"  placeholder="010xxxxxxxx" required name = "phone">
+          <input type="text" class="form-control"  placeholder="010-xxxx-xxxx" required name = "phone">
           <div class="invalid-feedback">
-            휴대폰 번호를 입력해주세요 (숫자만 입력)
+            휴대폰 번호를 입력해주세요
           </div>
         </div>
 
