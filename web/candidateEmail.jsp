@@ -365,7 +365,6 @@
 
                                 <div class="row g-3">
                                     <div class="col-md-6">
-                                        <%--나중에 label 안에 for="validationCustom03" 추가 유무 따지기--%>
                                         <label class="form-label">메일 제목</label>
                                         <input type="text" class="form-control" name="emailSubject" required>
                                         <div class="invalid-feedback">
@@ -378,7 +377,6 @@
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <br />
-                                        <%--나중에 label 안에 for="validationCustom03" 추가 유무 따지기--%>
                                         <label class="form-label">메일 내용</label>
                                         <textarea class="form-control" name="emailContent" required></textarea>
                                         <div class="invalid-feedback">
