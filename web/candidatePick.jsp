@@ -45,6 +45,40 @@
 
     <!-- Page level custom scripts -->
     <script src="${pageContext.request.contextPath}/resources/js/demo/datatables-demo.js"></script>
+    <script>
+        window.onload = function() {
+            var selectedProcess = document.getElementById("processSelector");
+            var headCountInput = document.getElementById("headCountInput");
+            var storedProcess = localStorage.getItem("process");
+            var storedCount = localStorage.getItem("count");
+            if (storedProcess){
+                selectedProcess.value = storedProcess;
+            }
+            if (storedCount){
+                headCountInput.value = storedCount;
+            }
+        }
+
+        function saveValue() {
+            var selectedProcess = document.getElementById("processSelector");
+            var headCountInput = document.getElementById("headCountInput");
+
+            var selectedVal = selectedProcess.value;
+            var inputCount = headCountInput.value;
+
+            if (inputCount === ""){
+                alert("선발 인원을 입력해주세요");
+            }
+
+            localStorage.setItem("process", selectedVal);
+            localStorage.setItem("count", inputCount);
+        }
+        function removeValue() {
+            localStorage.removeItem("process");
+            localStorage.removeItem("count");
+        }
+
+    </script>
 </head>
 
 <body id="page-top">
@@ -152,43 +186,8 @@
                             </label>
                             <input type="submit" id="search" value="검색" class="page-link" style="display: inline-block" onclick="saveValue()">
                             <input type="submit" id="appendPasser" value="합격자 추가" class="page-link" style="display: inline-block" onclick="removeValue()">
-                            <script>
-                                window.onload = function() {
-                                    var selectedProcess = document.getElementById("processSelector");
-                                    var headCountInput = document.getElementById("headCountInput");
-                                    var storedProcess = localStorage.getItem("process");
-                                    var storedCount = localStorage.getItem("count");
-                                    if (storedProcess){
-                                        selectedProcess.value = storedProcess;
-                                    }
-                                    if (storedCount){
-                                        headCountInput.value = storedCount;
-                                    }
-                                }
-                            </script>
                         </form>
                     </div>
-                    <script>
-                        function saveValue() {
-                            var selectedProcess = document.getElementById("processSelector");
-                            var headCountInput = document.getElementById("headCountInput");
-
-                            var selectedVal = selectedProcess.value;
-                            var inputCount = headCountInput.value;
-
-                            if (inputCount === ""){
-                                alert("선발 인원을 입력해주세요");
-                            }
-
-                            localStorage.setItem("process", selectedVal);
-                            localStorage.setItem("count", inputCount);
-                        }
-                        function removeValue() {
-                            localStorage.removeItem("process");
-                            localStorage.removeItem("count");
-                        }
-
-                    </script>
                     <div class="card-body">
                         <div class="table-responsive">
                             <% List<Map<String, String>> passer = (List<Map<String, String>>)request.getAttribute("passer"); %>
