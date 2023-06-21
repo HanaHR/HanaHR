@@ -29,15 +29,14 @@
 
   <!-- Outer Row -->
   <div class="row justify-content-center">
-
-    <div class="col-xl-10 col-lg-12 col-md-9">
+    <div class="col-xl-10 col-lg-12 col-md-9" style="margin: 150px">
 
       <div class="card o-hidden border-0 shadow-lg my-5">
         <div class="card-body p-0">
           <!-- Nested Row within Card Body -->
           <div class="row">
             <div class="col-lg-6 d-none d-lg-block bg-login-image">
-
+                <img src="./resources/img/hanaHR_logo.png" alt="" width="468px" height="286px" >
             </div>
             <div class="col-lg-6">
               <div class="p-5">
