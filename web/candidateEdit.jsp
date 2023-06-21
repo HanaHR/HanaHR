@@ -253,7 +253,7 @@
                 <div class="card shadow mb-4">
                     <div class="card-header py-3"> <!-- 회색 부분 -->
                         <div class="d-flex align-items-center">
-                            <form action="/candidateSearch.jsp" method="post" accept-charset="UTF-8">qjxms
+                            <form action="/candidateSearch.jsp" method="post" accept-charset="UTF-8">
                                 <label for="searchName">Search by Name:</label>
                                 <input type="text" id="searchName" name="searchName">
                                 <button type="submit" class="btn btn-outline-secondary" >검색</button>
@@ -321,7 +321,7 @@
 
                             <% if (searchResults != null && !searchResults.isEmpty()) { %>
                             <% for (User user : searchResults) { %>
-                            <h2>편집 하기</h2>
+                            <h3 style="margin-top: 20px;">편집하기</h3>
                             <form action="/updateCandidate" method="post" accept-charset="UTF-8">
                             <table >
                                 <tr>
