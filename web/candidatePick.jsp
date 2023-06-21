@@ -26,7 +26,7 @@
             flex: 0;
         }
         #dataTable_info {
-            display: none;
+            visibility: hidden;
         }
     </style>
     <!-- Bootstrap core JavaScript-->
@@ -45,23 +45,57 @@
 
     <!-- Page level custom scripts -->
     <script src="${pageContext.request.contextPath}/resources/js/demo/datatables-demo.js"></script>
+    <script>
+        window.onload = function() {
+            var selectedProcess = document.getElementById("processSelector");
+            var headCountInput = document.getElementById("headCountInput");
+            var storedProcess = localStorage.getItem("process");
+            var storedCount = localStorage.getItem("count");
+            if (storedProcess){
+                selectedProcess.value = storedProcess;
+            }
+            if (storedCount){
+                headCountInput.value = storedCount;
+            }
+        }
+
+        function saveValue() {
+            var selectedProcess = document.getElementById("processSelector");
+            var headCountInput = document.getElementById("headCountInput");
+
+            var selectedVal = selectedProcess.value;
+            var inputCount = headCountInput.value;
+
+            if (inputCount === ""){
+                alert("선발 인원을 입력해주세요");
+            }
+
+            localStorage.setItem("process", selectedVal);
+            localStorage.setItem("count", inputCount);
+        }
+        function removeValue() {
+            localStorage.removeItem("process");
+            localStorage.removeItem("count");
+        }
+
+    </script>
 </head>
 
 <body id="page-top">
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
+<!-- Page Wrapper -->
+<div id="wrapper">
 
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3"> 하나 인사관리 ERP </div>
-            </a>
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="candidateStatus">
+            <div class="sidebar-brand-icon rotate-n-15">
+                <i class="fas fa-laugh-wink"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3"> 하나 인사관리 ERP </div>
+        </a>
 
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
@@ -166,7 +200,7 @@
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">admin</span>
                             <img class="img-profile rounded-circle"
                                  src="${pageContext.request.contextPath}/resources/img/undraw_profile.svg">
                         </a>
@@ -192,11 +226,11 @@
                             </a>
                         </div>
                     </li>
+
                 </ul>
 
             </nav>
             <!-- End of Topbar -->
-
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
@@ -211,40 +245,6 @@
                         <p class="mb-4">진행중인 전형을 선택하고, 선발 인원을 입력하여 합격자를 추가합니다.</p>
                         <hr>
                         <form action="/pick" method="post" id="picker">
-                            <script>
-                                window.onload = function() {
-                                    var selectedProcess = document.getElementById("processSelector");
-                                    var headCountInput = document.getElementById("headCountInput");
-                                    var storedProcess = localStorage.getItem("process");
-                                    var storedCount = localStorage.getItem("count");
-                                    if (storedProcess){
-                                        selectedProcess.value = storedProcess;
-                                    }
-                                    if (storedCount){
-                                        headCountInput.value = storedCount;
-                                    }
-                                }
-
-                                function saveValue() {
-                                    var selectedProcess = document.getElementById("processSelector");
-                                    var headCountInput = document.getElementById("headCountInput");
-
-                                    var selectedVal = selectedProcess.value;
-                                    var inputCount = headCountInput.value;
-
-                                    if (inputCount === ""){
-                                        alert("선발 인원을 입력해주세요");
-                                    }
-
-                                    localStorage.setItem("process", selectedVal);
-                                    localStorage.setItem("count", inputCount);
-                                }
-                                function removeValue() {
-                                    localStorage.removeItem("process");
-                                    localStorage.removeItem("count");
-                                }
-
-                            </script>
                             <label>
                                 전형분류
                                 <select name="process" class="custom-select custom-select-sm form-control form-control-sm" id="processSelector">
@@ -264,6 +264,7 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <% List<Map<String, String>> passer = (List<Map<String, String>>)request.getAttribute("passer"); %>
+                            <% if (passer != null && !passer.isEmpty()) { %>
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                 <tr>
@@ -310,6 +311,11 @@
                                         <td><%= psr.get("2차면접합격여부").equals("0") ? "불합격" : psr.get("2차면접합격여부").equals("1") ? "합격" : "미진행" %></td>
                                     </tr>
                                     <% } %>
+                                    <% } else { %>
+                                    <tr>
+                                        <td colspan="13">검색 결과가 없습니다.</td>
+                                    </tr>
+                                    <% } %>
                                 </tbody>
                             </table>
                         </div>
@@ -322,12 +328,11 @@
         </div>
         <!-- End of Main Content -->
 
-
         <!-- Footer -->
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; Your Website 2020</span>
+                    <span>Copyright hanaHR 2023</span>
                 </div>
             </div>
         </footer>
@@ -335,6 +340,7 @@
 
     </div>
     <!-- End of Content Wrapper -->
+
 
 </div>
 <!-- End of Page Wrapper -->
@@ -363,6 +369,9 @@
         </div>
     </div>
 </div>
+
+
+
 </body>
 
 </html>

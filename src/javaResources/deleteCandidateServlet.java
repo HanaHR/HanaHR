@@ -24,7 +24,7 @@ public class deleteCandidateServlet extends HttpServlet {
         try {
             // 데이터베이스 연결 설정
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hanadb?useUnicode=true&characterEncoding=utf8", "root", "0000");
+            connection = DriverManager.getConnection("jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8", "hanaro", "hanaro6666!");
 
             // 삭제 쿼리 Score
 

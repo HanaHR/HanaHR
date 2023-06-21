@@ -100,7 +100,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="candidateStatus">
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-laugh-wink"></i>
             </div>
@@ -211,9 +211,9 @@
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">admin</span>
                             <img class="img-profile rounded-circle"
-                                 src="img/undraw_profile.svg">
+                                 src="${pageContext.request.contextPath}/resources/img/undraw_profile.svg">
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -256,7 +256,7 @@
                             <form action="/candidateSearch.jsp" method="post" accept-charset="UTF-8">
                                 <label for="searchName">Search by Name:</label>
                                 <input type="text" id="searchName" name="searchName">
-                                <button type="submit">검색</button>
+                                <button type="submit" class="btn btn-outline-secondary" >검색</button>
                             </form>
                         </div>
                         <br>
@@ -321,7 +321,7 @@
 
                             <% if (searchResults != null && !searchResults.isEmpty()) { %>
                             <% for (User user : searchResults) { %>
-                            <h2>편집 하기</h2>
+
                             <form action="/updateCandidate" method="post" accept-charset="UTF-8">
                             <table >
                                 <tr>
@@ -355,7 +355,7 @@
                                                     <option value="false" <%= !user.isMemberInterview2Pass() ? "selected" : "" %>>불합격</option>
                                                 </select></br>
                                                 <input type="hidden" name="memberNumber" value="<%= user.getMemberNumber() %>">
-                                                <button class="btn btn-primary btn-sm" type="submit" style="padding: 7px 360px"; onclick="return confirm('수정되었습니다')">edit</button>
+                                                <button class="btn btn-primary btn-sm" type="submit" style="margin: 20px 0px; padding: 7px 360px"; onclick="return confirm('수정되었습니다')">edit</button>
                                             </form>
                                         </td>
 
@@ -370,7 +370,19 @@
             </div>
             <!-- /.container-fluid -->
         </div>
+
         <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright hanaHR 2023</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+
     </div>
     <!-- End of Content Wrapper -->
 </div>
