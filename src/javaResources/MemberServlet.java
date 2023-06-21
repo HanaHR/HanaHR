@@ -47,10 +47,11 @@ public class MemberServlet extends HttpServlet {
         String headCount = request.getParameter("headCount");
 
         PasserDAO dao = new PasserDAO();
-        List<Map<String, String>> findResult = dao.pickPasser(process, headCount);
-        request.setAttribute("passer", findResult);
-        dao.updatePasser(findResult, process, headCount);
-
+        if (headCount != "") {
+            List<Map<String, String>> findResult = dao.pickPasser(process, headCount);
+            request.setAttribute("passer", findResult);
+            dao.updatePasser(findResult, process, headCount);
+        }
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("candidatePick.jsp");
         dispatcher.forward(request, response);
