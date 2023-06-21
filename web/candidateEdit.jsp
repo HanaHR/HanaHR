@@ -211,9 +211,9 @@
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">admin</span>
                             <img class="img-profile rounded-circle"
-                                 src="img/undraw_profile.svg">
+                                 src="${pageContext.request.contextPath}/resources/img/undraw_profile.svg">
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -370,7 +370,19 @@
             </div>
             <!-- /.container-fluid -->
         </div>
+
         <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright hanaHR 2023</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+
     </div>
     <!-- End of Content Wrapper -->
 </div>
