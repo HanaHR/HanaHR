@@ -22,7 +22,7 @@ public class MemberServlet extends HttpServlet {
         super.init();
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hanahr?useUnicode=true&characterEncoding=utf8", "root", "1234");
+            connection = DriverManager.getConnection("jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8", "hanaro", "hanaro6666!");
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }

@@ -57,7 +57,7 @@ public class emailServlet extends HttpServlet {
         if (selection1.equals("paper") && selection2.equals("pass")) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc", "root", "1234");
+                Connection connection = DriverManager.getConnection("jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8", "hanaro", "hanaro6666!");
                 Statement statement = connection.createStatement();
                 String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberPaperPass=1";
                 ResultSet resultSet = statement.executeQuery(sql);
@@ -77,7 +77,7 @@ public class emailServlet extends HttpServlet {
         if (selection1.equals("paper") && selection2.equals("fail")) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc", "root", "1234");
+                Connection connection = DriverManager.getConnection("jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8", "hanaro", "hanaro6666!");
                 Statement statement = connection.createStatement();
                 String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberPaperPass=0";
                 ResultSet resultSet = statement.executeQuery(sql);
@@ -97,7 +97,7 @@ public class emailServlet extends HttpServlet {
         if (selection1.equals("written") && selection2.equals("pass")) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc", "root", "1234");
+                Connection connection = DriverManager.getConnection("jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8", "hanaro", "hanaro6666!");
                 Statement statement = connection.createStatement();
                 String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberWrittenPass=1";
                 ResultSet resultSet = statement.executeQuery(sql);
@@ -117,7 +117,7 @@ public class emailServlet extends HttpServlet {
         if (selection1.equals("written") && selection2.equals("fail")) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc", "root", "1234");
+                Connection connection = DriverManager.getConnection("jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8", "hanaro", "hanaro6666!");
                 Statement statement = connection.createStatement();
                 String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberWrittenPass=0";
                 ResultSet resultSet = statement.executeQuery(sql);
@@ -137,7 +137,7 @@ public class emailServlet extends HttpServlet {
         if (selection1.equals("interview1") && selection2.equals("pass")) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc", "root", "1234");
+                Connection connection = DriverManager.getConnection("jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8", "hanaro", "hanaro6666!");
                 Statement statement = connection.createStatement();
                 String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberInterview1Pass=1";
                 ResultSet resultSet = statement.executeQuery(sql);
@@ -157,7 +157,7 @@ public class emailServlet extends HttpServlet {
         if (selection1.equals("interview1") && selection2.equals("fail")) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc", "root", "1234");
+                Connection connection = DriverManager.getConnection("jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8", "hanaro", "hanaro6666!");
                 Statement statement = connection.createStatement();
                 String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberInterview1Pass=0";
                 ResultSet resultSet = statement.executeQuery(sql);
@@ -177,7 +177,7 @@ public class emailServlet extends HttpServlet {
         if (selection1.equals("interview2") && selection2.equals("pass")) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc", "root", "1234");
+                Connection connection = DriverManager.getConnection("jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8", "hanaro", "hanaro6666!");
                 Statement statement = connection.createStatement();
                 String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberInterview2Pass=1";
                 ResultSet resultSet = statement.executeQuery(sql);
@@ -197,7 +197,7 @@ public class emailServlet extends HttpServlet {
         if (selection1.equals("interview2") && selection2.equals("fail")) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc", "root", "1234");
+                Connection connection = DriverManager.getConnection("jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8", "hanaro", "hanaro6666!");
                 Statement statement = connection.createStatement();
                 String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberInterview2Pass=0";
                 ResultSet resultSet = statement.executeQuery(sql);

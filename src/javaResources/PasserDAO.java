@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 public class PasserDAO {
-    private String url = "jdbc:mysql://localhost:3306/hanadb?useUnicode=true&characterEncoding=utf8";
-    private String username = "root";
-    private String password = "0000";
+    private String url = "jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8";
+    private String username = "hanaro";
+    private String password = "hanaro6666!";
 
     public List<Map<String, String>> pickPasser(String process, String headCount){
         List<Map<String, String>> findResult = new ArrayList<>();
