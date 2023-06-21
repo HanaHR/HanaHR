@@ -100,7 +100,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="candidateStatus">
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-laugh-wink"></i>
             </div>
@@ -253,7 +253,7 @@
                 <div class="card shadow mb-4">
                     <div class="card-header py-3"> <!-- 회색 부분 -->
                         <div class="d-flex align-items-center">
-                            <form action="/candidateSearch.jsp" method="post" accept-charset="UTF-8">qjxms
+                            <form action="/candidateSearch.jsp" method="post" accept-charset="UTF-8">
                                 <label for="searchName">Search by Name:</label>
                                 <input type="text" id="searchName" name="searchName">
                                 <button type="submit" class="btn btn-outline-secondary" >검색</button>
@@ -321,7 +321,7 @@
 
                             <% if (searchResults != null && !searchResults.isEmpty()) { %>
                             <% for (User user : searchResults) { %>
-                            <h2>편집 하기</h2>
+
                             <form action="/updateCandidate" method="post" accept-charset="UTF-8">
                             <table >
                                 <tr>
@@ -355,7 +355,7 @@
                                                     <option value="false" <%= !user.isMemberInterview2Pass() ? "selected" : "" %>>불합격</option>
                                                 </select></br>
                                                 <input type="hidden" name="memberNumber" value="<%= user.getMemberNumber() %>">
-                                                <button class="btn btn-primary btn-sm" type="submit" style="padding: 7px 360px"; onclick="return confirm('수정되었습니다')">edit</button>
+                                                <button class="btn btn-primary btn-sm" type="submit" style="margin: 20px 0px; padding: 7px 360px"; onclick="return confirm('수정되었습니다')">edit</button>
                                             </form>
                                         </td>
 
