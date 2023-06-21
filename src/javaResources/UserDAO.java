@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
-    private String url = "jdbc:mysql://localhost:3306/hanadb?useUnicode=true&characterEncoding=utf8";
-    private String username = "root";
-    private String password = "0000";
+    private String url = "jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8";
+    private String username = "hanaro";
+    private String password = "hanaro6666!";
 
     public List<User> searchMembersByName(String name) {
         List<User> searchResults = new ArrayList<>();

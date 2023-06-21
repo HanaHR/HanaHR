@@ -22,7 +22,7 @@ public class LoginServlet extends HttpServlet {
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hanahr?useUnicode=true&characterEncoding=utf8", "root", "1234");
+            connection = DriverManager.getConnection("jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8", "hanaro", "hanaro6666!");
             System.out.println("Login DB success");
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -41,7 +41,7 @@ public class LoginServlet extends HttpServlet {
             response.sendRedirect("/");
         }
         else{
-            response.sendRedirect("candidateStatus.jsp");
+            response.sendRedirect("candidateStatus");
         }
 
 
@@ -101,7 +101,7 @@ public class LoginServlet extends HttpServlet {
 
                 HttpSession session = request.getSession(true);
                 session.setAttribute("admin", true);
-                response.sendRedirect("candidateStatus.jsp");
+                response.sendRedirect("candidateStatus");
             }
 
 

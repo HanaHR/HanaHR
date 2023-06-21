@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 public class UserDAO2 {
-    private String url = "jdbc:mysql://localhost:3306/mydb?useUnicode=true&characterEncoding=utf8";
-    private String username = "root";
-    private String password = "1234";
+    private String url = "jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8";
+    private String username = "hanaro";
+    private String password = "hanaro6666!";
 
     public int getCandidatesCount() {
         int totalCount = 0;

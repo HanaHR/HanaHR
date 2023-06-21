@@ -66,7 +66,7 @@ public class updateCandidate extends HttpServlet {
         try {
             // 데이터베이스 연결 설정
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hanadb?useUnicode=true&characterEncoding=utf8", "root", "0000");
+            connection = DriverManager.getConnection("jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8", "hanaro", "hanaro6666!");
             System.out.println("------------------");
             // 업데이트 쿼리 작성 score테이블
             String updateScoreQuery = "UPDATE score set memberPaperScore = ?, memberPaperPass = ?, memberWrittenScore = ?, memberWrittenPass = ?, memberInterview1Score = ?, memberInterview1Pass = ?, memberInterview2Score = ?, memberInterview2Pass = ? WHERE memberNumber = ?";
