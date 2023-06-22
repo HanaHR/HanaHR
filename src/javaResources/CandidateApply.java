@@ -1,6 +1,6 @@
 package javaResources;
 
-import javaResources.ApplyDao;
+import javaDB.ApplyDao;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.sql.*;
 
 @WebServlet("/apply")
-public class ApplyServlet extends HttpServlet {
+public class CandidateApply extends HttpServlet {
 
 
     @Override

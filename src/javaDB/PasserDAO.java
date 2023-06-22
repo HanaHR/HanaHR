@@ -1,7 +1,8 @@
-package javaResources;
+package javaDB;
 
 
-import java.net.ConnectException;
+import javaDB.DB1;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;

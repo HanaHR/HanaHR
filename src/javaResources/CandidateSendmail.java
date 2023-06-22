@@ -1,5 +1,7 @@
 package javaResources;
 
+import javaDB.DB1;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,11 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/emailServlet")
-public class emailServlet extends HttpServlet {
+public class CandidateSendmail extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        Rq rq = new Rq(req,res);
+        RequestUtils requestUtils = new RequestUtils(req,res);
 
         //request에 정보를 담는다
         //candidateEmail.jsp에게 나머지 작업을 토스
@@ -27,16 +29,16 @@ public class emailServlet extends HttpServlet {
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        Rq rq = new Rq(req, res);
+        RequestUtils requestUtils = new RequestUtils(req, res);
 
         req.setCharacterEncoding("UTF-8");
 
 
         // JSP 페이지에서 전송된 데이터를 받아옴
-        String selection1 = rq.getParam("selection1"); // 전형 분류
-        String selection2 = rq.getParam("selection2"); // 지원자 분류
-        String emailSubject = rq.getParam("emailSubject"); // 메일 제목
-        String emailContent = rq.getParam("emailContent"); // 메일 내용
+        String selection1 = requestUtils.getParam("selection1"); // 전형 분류
+        String selection2 = requestUtils.getParam("selection2"); // 지원자 분류
+        String emailSubject = requestUtils.getParam("emailSubject"); // 메일 제목
+        String emailContent = requestUtils.getParam("emailContent"); // 메일 내용
 
         res.setCharacterEncoding("UTF-8");
         res.setContentType("text/plain; charset=UTF-8");
@@ -195,7 +197,7 @@ public class emailServlet extends HttpServlet {
             // email 변수에는 각 지원자의 이메일 주소가 저장되어 있습니다.
             String subject = "메일 제목";
             String content = "메일 내용";
-           EmailUtils.sendEmail(email, subject, content);
+           MailUtils.sendEmail(email, subject, content);
         }
 
         // 이메일 전송 후에는 필요한 처리 작업을 수행하고 결과를 JSP 페이지에 전달합니다.

@@ -1,35 +1,77 @@
 package javaResources;
 
-import javaBeans.UserDTO;
+import javaBeans.User;
+import javaDB.DB1;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.sql.*;
+import java.util.List;
+import java.util.ArrayList;
 
-public class UserDAO {
+@WebServlet("/candidateSearch.jsp")
+public class CandidateSearch extends HttpServlet {
+    private static final long serialVersionUID = 1L;
 
-    public List<UserDTO> searchMembersByName(String name) {
-        List<UserDTO> searchResults = new ArrayList<>();
+    private  Connection connection = DB1.getConnection();
 
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        Connection connection = DB1.getConnection();
+    }
+
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.setCharacterEncoding("utf-8");
+
+        // HTML이 UTF-8 형식이라는 것을 브라우저에게 전달
+        response.setContentType("text/html; charset=utf-8");
+
+        // 서블릿을 통해 생성되는 HTML 파일의 인코딩을 UTF-8로 설정
+        response.setCharacterEncoding("utf-8");
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("candidateEdit.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.setCharacterEncoding("utf-8");
+
+        // HTML이 UTF-8 형식이라는 것을 브라우저에게 전달
+        response.setContentType("text/html; charset=utf-8");
+
+        // 서블릿을 통해 생성되는 HTML 파일의 인코딩을 UTF-8로 설정
+        response.setCharacterEncoding("utf-8");
+
+        String searchName = request.getParameter("searchName");
+        request.setCharacterEncoding("UTF-8");
+        List<User> searchResults = searchUsersByName(searchName);
+        request.setAttribute("searchResults", searchResults);
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("candidateEdit.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private List<User> searchUsersByName(String name) {
+
+        List<User> searchResults = new ArrayList<>();
         try {
-            Connection connection = DB1.getConnection();
-
-            // 쿼리 작성
-            String query = "SELECT * FROM members WHERE name = ?";
-
-            // PreparedStatement를 사용하여 쿼리 실행
+            String query = "SELECT * FROM memberinfo WHERE memberName LIKE ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, "%" + name + "%");  // 입력받은 이름으로 부분 일치 검색 수행
-
-            // 쿼리 실행 결과를 ResultSet으로 받아와서 처리
             ResultSet resultSet = statement.executeQuery();
 
-            // 결과 처리
             while (resultSet.next()) {
                 int memberNumber = resultSet.getInt("memberNumber");
                 String memberName = resultSet.getString("memberName");
@@ -66,7 +108,12 @@ public class UserDAO {
                     memberInterview2Pass = scoreResultSet.getBoolean("memberInterview2Pass");
                     memberWrittenPass = scoreResultSet.getBoolean("memberWrittenPass");
                 }
-                UserDTO user = new UserDTO(memberName, memberNumber, memberEmail, memberGender, memberBirth,
+
+                scoreResultSet.close();
+                scoreStatement.close();
+
+                // User 객체 생성 및 결과에 추가
+                User user = new User(memberName, memberNumber, memberEmail, memberGender, memberBirth,
                         memberAddress, memberCareer, memberPhone, memberMajor, memberPaperScore,
                         memberWrittenScore, memberInterview1Score, memberInterview2Score, memberPaperPass,
                         memberInterview1Pass, memberInterview2Pass, memberWrittenPass);
@@ -75,11 +122,23 @@ public class UserDAO {
 
             resultSet.close();
             statement.close();
-        } catch (SQLException | RuntimeException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         System.out.println("Search results: " + searchResults);
         return searchResults;
     }
-}
 
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        try {
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}

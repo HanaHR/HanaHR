@@ -5,10 +5,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-public class Rq {
+public class RequestUtils {
     private final HttpServletRequest req;
     private final HttpServletResponse res;
-    public Rq(HttpServletRequest req, HttpServletResponse res) {
+    public RequestUtils(HttpServletRequest req, HttpServletResponse res) {
         this.req = req;
         this.res = res;
 

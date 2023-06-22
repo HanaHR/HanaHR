@@ -1,4 +1,6 @@
-package javaResources;
+package javaDB;
+import javaDB.DB1;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;

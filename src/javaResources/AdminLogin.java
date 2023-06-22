@@ -1,6 +1,6 @@
 package javaResources;
 
-import javaResources.DB1;
+import javaDB.DB1;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 import java.sql.*;
 
 @WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+public class AdminLogin extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     Connection connection = DB1.getConnection();

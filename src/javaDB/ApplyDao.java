@@ -1,6 +1,4 @@
-package javaResources;
-
-import javaResources.DB1;
+package javaDB;
 
 import java.sql.*;
 

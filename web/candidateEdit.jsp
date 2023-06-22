@@ -209,7 +209,7 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
-                <%@ page import="javaBeans.UserDTO" %>
+                <%@ page import="javaBeans.User" %>
                 <%@ page import="java.util.List" %>
                 <%@ page import="java.util.ArrayList" %>
 
@@ -246,9 +246,9 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <% List<UserDTO> searchResults = (List<UserDTO>) request.getAttribute("searchResults"); %>
+                                <% List<User> searchResults = (List<User>) request.getAttribute("searchResults"); %>
                                 <% if (searchResults != null && !searchResults.isEmpty()) { %>
-                                <% for (UserDTO user : searchResults) { %>
+                                <% for (User user : searchResults) { %>
                                 <tr>
 
 <%--                                    <td><%= user.getMemberNumber() %></td>--%>
@@ -283,7 +283,7 @@
                             </table>
 
                             <% if (searchResults != null && !searchResults.isEmpty()) { %>
-                            <% for (UserDTO user : searchResults) { %>
+                            <% for (User user : searchResults) { %>
 
                             <form action="/updateCandidate" method="post" accept-charset="UTF-8">
                             <table >

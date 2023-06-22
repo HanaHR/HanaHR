@@ -2,7 +2,7 @@ package javaBeans;
 
 import java.util.Date;
 
-public class UserDTO {
+public class User {
     private String memberName;
     private int memberNumber;
     private String memberEmail;
@@ -21,11 +21,11 @@ public class UserDTO {
     private boolean memberInterview2Pass;
     private boolean memberWrittenPass;
 
-    public UserDTO(String memberName, int memberNumber, String memberEmail, String memberGender, Date memberBirth,
-                   String memberAddress, boolean memberCareer, String memberPhone, boolean memberMajor,
-                   int memberPaperScore, int memberWrittenScore, int memberInterview1Score, int memberInterview2Score,
-                   boolean memberPaperPass, boolean memberInterview1Pass, boolean memberInterview2Pass,
-                   boolean memberWrittenPass) {
+    public User(String memberName, int memberNumber, String memberEmail, String memberGender, Date memberBirth,
+                String memberAddress, boolean memberCareer, String memberPhone, boolean memberMajor,
+                int memberPaperScore, int memberWrittenScore, int memberInterview1Score, int memberInterview2Score,
+                boolean memberPaperPass, boolean memberInterview1Pass, boolean memberInterview2Pass,
+                boolean memberWrittenPass) {
         this.memberName = memberName;
         this.memberNumber = memberNumber;
         this.memberEmail = memberEmail;
