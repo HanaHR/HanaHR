@@ -1,3 +1,6 @@
+package javaResources;
+
+import javaResources.DB1;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,20 +16,13 @@ import java.sql.*;
 public class LoginServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private Connection connection;
+    Connection connection = DB1.getConnection();
     Statement stmt = null;
     ResultSet rs = null;
     @Override
     public void init() throws ServletException {
         super.init();
-
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8", "hanaro", "hanaro6666!");
-            System.out.println("Login DB success");
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
+        System.out.println("Login DB success");
     }
 
 

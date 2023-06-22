@@ -9,16 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 public class PasserDAO {
-    private String url = "jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8";
-    private String username = "hanaro";
-    private String password = "hanaro6666!";
 
     public List<Map<String, String>> pickPasser(String process, String headCount){
         List<Map<String, String>> findResult = new ArrayList<>();
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(url, username, password);
+            Connection connection = DB1.getConnection();
             String query = "";
             if (process.equals("memberPaperScore")) {
                 query = "SELECT m.memberNumber, m.memberName, m.memberMajor, m.memberPhone, m.memberEmail, s.memberPaperScore, s.memberPaperPass, s.memberWrittenScore, s.memberWrittenPass, s.memberInterview1Score, s.memberInterview1Pass, s.memberInterview2Score, s.memberInterview2Pass from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberPaperScore > 0 order by ? desc limit ?";
@@ -52,15 +48,14 @@ public class PasserDAO {
                 hm.put("2차면접합격여부", Integer.toString(resultSet.getInt("memberInterview2Pass")));
                 findResult.add(hm);
             }
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return findResult;
     }
     public void updatePasser(List<Map<String, String>> selectedPasser, String process, String headCount) {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(url, username, password);
+            Connection connection = DB1.getConnection();
 
             // 합격자 score 테이블 각 전형별 Pass 컬럼 값 변경
             String query = "";
@@ -107,7 +102,7 @@ public class PasserDAO {
             pstmt2.setInt(1, Integer.parseInt(headCount));
             pstmt2.executeUpdate();
 
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
