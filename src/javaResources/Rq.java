@@ -1,4 +1,4 @@
-package com.hanaHR.web;
+package javaResources;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

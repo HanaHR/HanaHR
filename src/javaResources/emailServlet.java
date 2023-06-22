@@ -1,4 +1,4 @@
-package com.hanaHR.web;
+package javaResources;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,7 +12,6 @@ import java.io.PrintWriter;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import com.hanaHR.web.EmailUtils;
 
 @WebServlet("/emailServlet")
 public class emailServlet extends HttpServlet {
@@ -52,12 +51,11 @@ public class emailServlet extends HttpServlet {
 
         // 조건에 맞는 지원자들의 이메일 주소 가져오기
         List<String> emailList = new ArrayList<>();
+        Connection connection = DB1.getConnection();
 
         //서류전형 합격자들의 이메일 가져오기
         if (selection1.equals("paper") && selection2.equals("pass")) {
             try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection connection = DriverManager.getConnection("jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8", "hanaro", "hanaro6666!");
                 Statement statement = connection.createStatement();
                 String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberPaperPass=1";
                 ResultSet resultSet = statement.executeQuery(sql);
@@ -68,16 +66,12 @@ public class emailServlet extends HttpServlet {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
             }
         }
 
         //서류전형 불합격자들의 이메일 가져오기
         if (selection1.equals("paper") && selection2.equals("fail")) {
             try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection connection = DriverManager.getConnection("jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8", "hanaro", "hanaro6666!");
                 Statement statement = connection.createStatement();
                 String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberPaperPass=0";
                 ResultSet resultSet = statement.executeQuery(sql);
@@ -88,16 +82,13 @@ public class emailServlet extends HttpServlet {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
             }
         }
 
         //필기전형 합격자들의 이메일 가져오기
         if (selection1.equals("written") && selection2.equals("pass")) {
             try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection connection = DriverManager.getConnection("jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8", "hanaro", "hanaro6666!");
+
                 Statement statement = connection.createStatement();
                 String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberWrittenPass=1";
                 ResultSet resultSet = statement.executeQuery(sql);
@@ -108,16 +99,13 @@ public class emailServlet extends HttpServlet {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
             }
         }
 
         //필기전형 불합격자들의 이메일 가져오기
         if (selection1.equals("written") && selection2.equals("fail")) {
             try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection connection = DriverManager.getConnection("jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8", "hanaro", "hanaro6666!");
+
                 Statement statement = connection.createStatement();
                 String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberWrittenPass=0";
                 ResultSet resultSet = statement.executeQuery(sql);
@@ -128,16 +116,13 @@ public class emailServlet extends HttpServlet {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
             }
         }
 
         //면접1차 합격자들의 이메일 가져오기
         if (selection1.equals("interview1") && selection2.equals("pass")) {
             try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection connection = DriverManager.getConnection("jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8", "hanaro", "hanaro6666!");
+
                 Statement statement = connection.createStatement();
                 String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberInterview1Pass=1";
                 ResultSet resultSet = statement.executeQuery(sql);
@@ -148,16 +133,13 @@ public class emailServlet extends HttpServlet {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
             }
         }
 
         //면접1차 불합격자들의 이메일 가져오기
         if (selection1.equals("interview1") && selection2.equals("fail")) {
             try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection connection = DriverManager.getConnection("jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8", "hanaro", "hanaro6666!");
+
                 Statement statement = connection.createStatement();
                 String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberInterview1Pass=0";
                 ResultSet resultSet = statement.executeQuery(sql);
@@ -168,16 +150,13 @@ public class emailServlet extends HttpServlet {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
             }
         }
 
         //면접2차 합격자들의 이메일 가져오기
         if (selection1.equals("interview2") && selection2.equals("pass")) {
             try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection connection = DriverManager.getConnection("jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8", "hanaro", "hanaro6666!");
+
                 Statement statement = connection.createStatement();
                 String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberInterview2Pass=1";
                 ResultSet resultSet = statement.executeQuery(sql);
@@ -188,16 +167,13 @@ public class emailServlet extends HttpServlet {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
             }
         }
 
         //면접2차 합격자들의 이메일 가져오기
         if (selection1.equals("interview2") && selection2.equals("fail")) {
             try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection connection = DriverManager.getConnection("jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8", "hanaro", "hanaro6666!");
+
                 Statement statement = connection.createStatement();
                 String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberInterview2Pass=0";
                 ResultSet resultSet = statement.executeQuery(sql);
@@ -208,8 +184,6 @@ public class emailServlet extends HttpServlet {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
             }
         }
 

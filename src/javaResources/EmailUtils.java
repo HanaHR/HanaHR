@@ -1,4 +1,4 @@
-package com.hanaHR.web;
+package javaResources;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
