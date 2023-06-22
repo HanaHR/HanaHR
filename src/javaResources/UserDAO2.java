@@ -5,15 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 public class UserDAO2 {
-    private String url = "jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8";
-    private String username = "hanaro";
-    private String password = "hanaro6666!";
 
     public int getCandidatesCount() {
         int totalCount = 0;
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-            Connection connection = DriverManager.getConnection(url, username, password);
+            Connection connection = DB1.getConnection();
             String query = "SELECT COUNT(memberNumber) AS totalCandidate FROM memberInfo;";
             PreparedStatement pstmt = connection.prepareStatement(query);
             ResultSet resultSet = pstmt.executeQuery();
@@ -21,21 +17,16 @@ public class UserDAO2 {
                 totalCount = resultSet.getInt("totalCandidate");
             }
             connection.close();
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             System.out.println("에러: " + e.getMessage());
             e.printStackTrace();
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
         }
         return totalCount;
     }
     public List<Map<String, String>> viewCandidate() {
         List<Map<String, String>> viewResult = new ArrayList<>();
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-            Connection connection = DriverManager.getConnection(url, username, password);
+            Connection connection = DB1.getConnection();
             String query = "SELECT m.memberNumber, m.memberName, m.memberMajor, m.memberPhone, m.memberEmail, s.memberPaperScore, s.memberPaperPass, s.memberWrittenScore, s.memberWrittenPass, s.memberInterview1Score, s.memberInterview1Pass, s.memberInterview2Score, s.memberInterview2Pass " +
                     "from memberInfo as m join score as s on m.memberNumber = s.memberNumber";
 
@@ -59,13 +50,9 @@ public class UserDAO2 {
 
                 viewResult.add(hm);
             }
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             System.out.println("에러: " + e.getMessage());
             e.printStackTrace();
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
         }
         return viewResult;
     }
@@ -73,8 +60,7 @@ public class UserDAO2 {
     public List<Map<String, String>> AvgScore() {
         List<Map<String, String>> avgResult = new ArrayList<>();
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-            Connection connection = DriverManager.getConnection(url, username, password);
+            Connection connection = DB1.getConnection();
             String query = "SELECT AVG(memberPaperScore) as avgPaperScore, AVG(memberWrittenScore) as avgrWrittenScore,  " +
                     "AVG(memberInterview1Score) as avgInterview1Score, AVG(memberInterview2Score) as avgInterview2Score FROM score;";
             PreparedStatement pstmt = connection.prepareStatement(query);
@@ -88,13 +74,9 @@ public class UserDAO2 {
                 avgResult.add(hm);
             }
             connection.close();
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             System.out.println("에러: " + e.getMessage());
             e.printStackTrace();
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
         }
         return avgResult;
     }
@@ -106,8 +88,7 @@ public class UserDAO2 {
         String[] columnName2 = {"memberPaperPass", "memberWrittenPass", "memberInterview1Pass", "memberInterview2Pass"};
         String[] columnName3 = {"minPaperPass", "minWrittenPass", "minInterview1Pass", "minInterview2Pass"};
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-            Connection connection = DriverManager.getConnection(url, username, password);
+            Connection connection = DB1.getConnection();
             for(int i=0;i<4;i++) {
                 String query = "select min(" + columnName1[i] + ") as "+columnName3[i]+" from memberInfo as m join score " +
                         "as s on m.memberNumber = s.memberNumber where s."+columnName2[i]+"=1;";
@@ -119,13 +100,9 @@ public class UserDAO2 {
                 cutResult.add(totalCut);
             }
             connection.close();
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             System.out.println("에러: " + e.getMessage());
             e.printStackTrace();
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
         }
         return cutResult;
     }
@@ -136,8 +113,7 @@ public class UserDAO2 {
         int totalCandidate = 0;
         int passCandidate = 0;
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-            Connection connection = DriverManager.getConnection(url, username, password);
+            Connection connection = DB1.getConnection();
             String query = "SELECT COUNT(memberNumber) AS totalCandidate FROM memberInfo;";
             PreparedStatement pstmt = connection.prepareStatement(query);
             ResultSet resultSet = pstmt.executeQuery();
@@ -146,8 +122,6 @@ public class UserDAO2 {
             }
 
             for(int i=0;i<4;i++) {
-                Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-                connection = DriverManager.getConnection(url, username, password);
                 String query2 = "SELECT count(memberNumber) AS countPass from score where "+ columnVarName[i] + "=1;";
                 PreparedStatement pstmt2 = connection.prepareStatement(query2);
                 ResultSet resultSet2 = pstmt2.executeQuery();
@@ -158,13 +132,9 @@ public class UserDAO2 {
                 passResult.add(new Float(passCandidate*100 / totalCandidate));
             }
             connection.close();
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             System.out.println("에러: " + e.getMessage());
             e.printStackTrace();
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
         }
         return passResult;
     }

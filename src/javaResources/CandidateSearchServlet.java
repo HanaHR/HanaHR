@@ -1,6 +1,6 @@
 package javaResources;
 
-import javaBeans.User;
+import javaBeans.UserDTO;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,7 +17,8 @@ import java.util.ArrayList;
 public class CandidateSearchServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private Connection connection;
+    private  Connection connection = DB1.getConnection();
+
 
     @Override
     public void init() throws ServletException {
@@ -29,6 +30,7 @@ public class CandidateSearchServlet extends HttpServlet {
             e.printStackTrace();
         }
     }
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -58,16 +60,16 @@ public class CandidateSearchServlet extends HttpServlet {
 
         String searchName = request.getParameter("searchName");
         request.setCharacterEncoding("UTF-8");
-        List<User> searchResults = searchUsersByName(searchName);
+        List<UserDTO> searchResults = searchUsersByName(searchName);
         request.setAttribute("searchResults", searchResults);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("candidateEdit.jsp");
         dispatcher.forward(request, response);
     }
 
-    private List<User> searchUsersByName(String name) {
+    private List<UserDTO> searchUsersByName(String name) {
 
-        List<User> searchResults = new ArrayList<>();
+        List<UserDTO> searchResults = new ArrayList<>();
         try {
             String query = "SELECT * FROM memberinfo WHERE memberName LIKE ?";
             PreparedStatement statement = connection.prepareStatement(query);
@@ -115,7 +117,7 @@ public class CandidateSearchServlet extends HttpServlet {
                 scoreStatement.close();
 
                 // User 객체 생성 및 결과에 추가
-                User user = new User(memberName, memberNumber, memberEmail, memberGender, memberBirth,
+                UserDTO user = new UserDTO(memberName, memberNumber, memberEmail, memberGender, memberBirth,
                         memberAddress, memberCareer, memberPhone, memberMajor, memberPaperScore,
                         memberWrittenScore, memberInterview1Score, memberInterview2Score, memberPaperPass,
                         memberInterview1Pass, memberInterview2Pass, memberWrittenPass);

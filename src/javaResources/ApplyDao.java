@@ -1,19 +1,17 @@
+package javaResources;
+
+import javaResources.DB1;
+
 import java.sql.*;
 
 public class ApplyDao {
 
-    private Connection connection;
+    Connection connection = DB1.getConnection();
     Statement stmt = null;
     ResultSet rs = null;
     public ApplyDao(String name, String gender, String birth, String address, Integer career, String phone, String email, Integer major) throws SQLException {
 
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8", "hanaro", "hanaro6666!");
-            System.out.println("Apply DB success");
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
+        System.out.println("Apply DB success");
 
         String query = "INSERT into memberinfo (memberName, memberGender , memberBirth, memberAddress , memberCareer,memberPhone , memberEmail, memberMajor) values (?,?,?,?,?,?,?,?)";
 

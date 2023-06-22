@@ -1,6 +1,6 @@
 package javaResources;
 
-import javaBeans.User;
+import javaBeans.UserDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,23 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserDAO {
-    private String url = "jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8";
-    private String username = "hanaro";
-    private String password = "hanaro6666!";
 
-    public List<User> searchMembersByName(String name) {
-        List<User> searchResults = new ArrayList<>();
+    public List<UserDTO> searchMembersByName(String name) {
+        List<UserDTO> searchResults = new ArrayList<>();
 
         try {
-            // MySQL JDBC 드라이버 로드
-            Class.forName("com.mysql.cj.jdbc.Driver");
-
-            // MySQL 데이터베이스에 연결
-            Connection connection = DriverManager.getConnection(url, username, password);
+            Connection connection = DB1.getConnection();
 
             // 쿼리 작성
             String query = "SELECT * FROM members WHERE name = ?";
@@ -75,7 +66,7 @@ public class UserDAO {
                     memberInterview2Pass = scoreResultSet.getBoolean("memberInterview2Pass");
                     memberWrittenPass = scoreResultSet.getBoolean("memberWrittenPass");
                 }
-                User user = new User(memberName, memberNumber, memberEmail, memberGender, memberBirth,
+                UserDTO user = new UserDTO(memberName, memberNumber, memberEmail, memberGender, memberBirth,
                         memberAddress, memberCareer, memberPhone, memberMajor, memberPaperScore,
                         memberWrittenScore, memberInterview1Score, memberInterview2Score, memberPaperPass,
                         memberInterview1Pass, memberInterview2Pass, memberWrittenPass);
@@ -84,7 +75,7 @@ public class UserDAO {
 
             resultSet.close();
             statement.close();
-        } catch (SQLException |ClassNotFoundException | RuntimeException e) {
+        } catch (SQLException | RuntimeException e) {
             e.printStackTrace();
         }
         System.out.println("Search results: " + searchResults);

@@ -17,14 +17,12 @@ public class deleteCandidateServlet extends HttpServlet {
         String memberNumber = request.getParameter("memberNumber");
         System.out.println(memberNumber);
         // 데이터베이스 연결 및 삭제 작업 수행
-        Connection connection = null;
+        Connection connection = DB1.getConnection();
         PreparedStatement deleteScoreStatement = null;
         PreparedStatement deleteParentStatement = null;
 
         try {
             // 데이터베이스 연결 설정
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8", "hanaro", "hanaro6666!");
 
             // 삭제 쿼리 Score
 
