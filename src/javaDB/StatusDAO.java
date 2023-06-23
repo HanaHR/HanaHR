@@ -1,12 +1,11 @@
 package javaDB;
-import javaDB.DB1;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-public class UserDAO2 {
+public class StatusDAO {
 
     public int getCandidatesCount() {
         int totalCount = 0;
@@ -129,7 +128,7 @@ public class UserDAO2 {
                 ResultSet resultSet2 = pstmt2.executeQuery();
 
                 while (resultSet2.next()) {
-                    passCandidate = resultSet2.getInt("countPass");
+//                    passCandidate = resultSet2.getInt("countPass");
                 }
                 passResult.add(new Float(passCandidate*100 / totalCandidate));
             }
