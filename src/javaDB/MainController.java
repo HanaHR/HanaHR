@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "MainController", urlPatterns = {"/main", "/candidateSearch", "/pick", "/deleteCandidate","/updateCandidate","/emailServlet","/apply","/candidateStatus","/login"})
+@WebServlet(name = "MainController", urlPatterns = {"/main", "/candidateSearch", "/pick", "/deleteCandidate","/updateCandidate","/emailServlet","/apply","/candidateStatus","/login", "/updatePasser"})
 public class MainController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -49,6 +49,7 @@ public class MainController extends HttpServlet {
         UserDAO user = new UserDAO();
 
         switch (command) {
+            // 합격자 선정
             case "/pick":
                 String process = request.getParameter("process");
                 String headCount = request.getParameter("headCount");
@@ -56,8 +57,17 @@ public class MainController extends HttpServlet {
                 if (headCount != "") {
                     List<Map<String, String>> findResult = user.pickPasser(process, headCount);
                     request.setAttribute("passer", findResult);
-                    user.updatePasser(findResult, process, headCount);
                 }
+                break;
+            // score 테이블 전형별 Pass값 변경 & pass 테이블에 최종 합격자 추가
+            case "/updatePasser":
+                String processUpdate = request.getParameter("process");
+                String headCountUpdate = request.getParameter("headCount");
+                if (headCountUpdate != "") {
+                    List<Map<String, String>> findResult = user.pickPasser(processUpdate, headCountUpdate);
+                    user.updatePasser(findResult, processUpdate, headCountUpdate);
+                }
+                site="candidatePick.jsp";
                 break;
 
             case "/candidateSearch":

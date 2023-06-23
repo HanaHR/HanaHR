@@ -21,18 +21,7 @@ public class UserDAO {
         List<Map<String, String>> findResult = new ArrayList<>();
 
         try {
-
             String query = "";
-//            if (process.equals("memberPaperScore")) {
-//                query = "SELECT m.memberNumber, m.memberName, m.memberMajor, m.memberPhone, m.memberEmail, s.memberPaperScore, s.memberPaperPass, s.memberWrittenScore, s.memberWrittenPass, s.memberInterview1Score, s.memberInterview1Pass, s.memberInterview2Score, s.memberInterview2Pass from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberPaperScore > 0 order by ? desc limit ?";
-//            } else if (process.equals("memberWrittenScore")) {
-//                query = "SELECT m.memberNumber, m.memberName, m.memberMajor, m.memberPhone, m.memberEmail, s.memberPaperScore, s.memberPaperPass, s.memberWrittenScore, s.memberWrittenPass, s.memberInterview1Score, s.memberInterview1Pass, s.memberInterview2Score, s.memberInterview2Pass from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberWrittenScore > 0 order by ? desc limit ?";
-//            } else if (process.equals("memberInterview1Score")) {
-//                query = "SELECT m.memberNumber, m.memberName, m.memberMajor, m.memberPhone, m.memberEmail, s.memberPaperScore, s.memberPaperPass, s.memberWrittenScore, s.memberWrittenPass, s.memberInterview1Score, s.memberInterview1Pass, s.memberInterview2Score, s.memberInterview2Pass from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberInterview1Score > 0 order by ? desc limit ?";
-//            } else {
-//                query = "SELECT m.memberNumber, m.memberName, m.memberMajor, m.memberPhone, m.memberEmail, s.memberPaperScore, s.memberPaperPass, s.memberWrittenScore, s.memberWrittenPass, s.memberInterview1Score, s.memberInterview1Pass, s.memberInterview2Score, s.memberInterview2Pass from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberInterview2Score > 0 order by ? desc limit ?";
-//            }
-
             if (process.equals("memberPaperScore")) {
                 query = "SELECT m.memberNumber, m.memberName, m.memberMajor, m.memberPhone, m.memberEmail, s.memberPaperScore, s.memberPaperPass, s.memberWrittenScore, s.memberWrittenPass, s.memberInterview1Score, s.memberInterview1Pass, s.memberInterview2Score, s.memberInterview2Pass from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberPaperScore > 0 order by s.memberPaperScore desc limit ?";
             } else if (process.equals("memberWrittenScore")) {
@@ -44,7 +33,6 @@ public class UserDAO {
             }
 
             PreparedStatement pstmt = connection.prepareStatement(query);
-//            pstmt.setString(1, process);
             pstmt.setInt(1, Integer.parseInt(headCount));
 
             ResultSet resultSet = pstmt.executeQuery();
@@ -73,8 +61,6 @@ public class UserDAO {
 
     public void updatePasser(List<Map<String, String>> selectedPasser, String process, String headCount) {
         try {
-
-
             // 합격자 score 테이블 각 전형별 Pass 컬럼 값 변경
             String query = "";
             // 합격자 pass 테이블에 합격자 id 추가
