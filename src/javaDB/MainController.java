@@ -159,6 +159,7 @@ public class MainController extends HttpServlet {
                 request.setAttribute("result5-3", viewResult5.get(2));
                 request.setAttribute("result5-4", viewResult5.get(3));
 
+                site = "candidateStatus.jsp";
 
 
                 break;
@@ -176,15 +177,17 @@ public class MainController extends HttpServlet {
                 String adminPw = request.getParameter("adminPw");
 
                 user.AdminLogin(adminId,adminPw);
-                response.sendRedirect("candidateStatus.jsp");
+                response.sendRedirect("candidateStatus");
                 site = "index.jsp";
+                return;
 
-                break;
+
+
 
         }
 
 
-//        RequestDispatcher dispatcher = request.getRequestDispatcher(site);
-//        dispatcher.forward(request, response);
+        RequestDispatcher dispatcher = request.getRequestDispatcher(site);
+        dispatcher.forward(request, response);
     }
 }
