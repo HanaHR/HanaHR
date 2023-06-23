@@ -1,4 +1,4 @@
-package javaResources;
+package javaDB;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

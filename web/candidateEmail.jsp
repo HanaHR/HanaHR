@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.sql.*" %>
-<%@ page import="javaResources.DB1" %>
-<%@ page import="javaResources.EmailUtils" %>
-<%@ page import="javaResources.Rq" %>
+<%@ page import="javaDB.DB1" %>
+<%@ page import="javaResources.MailUtils" %>
+<%@ page import="javaResources.RequestUtils" %>
 
 <!DOCTYPE html>
 <html lang="en">
