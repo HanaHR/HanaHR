@@ -5,7 +5,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
-public class EmailUtils {
+public class MailUtils {
 
     public static void sendEmail(String recipient, String subject, String content) {
         // 발신자 계정 정보 설정

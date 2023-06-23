@@ -1,5 +1,5 @@
 package javaBeans;
-public class User2DTO {
+public class UserUp {
     private int memberNumber;
     private String memberName;
     private String memberAddress;

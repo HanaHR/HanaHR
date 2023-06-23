@@ -24,7 +24,7 @@
 
 <body class="bg-gradient-primary">
 
-<form action="login" method="post">
+<form action="/login" method="post">
 <div class="container">
 
   <!-- Outer Row -->

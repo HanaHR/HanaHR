@@ -1,5 +1,5 @@
 package javaBeans;
-public class ScoreDTO {
+public class Score {
     private int memberNumber;
     private int memberPaperScore;
     private int memberWrittenScore;

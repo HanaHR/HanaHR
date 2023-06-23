@@ -209,14 +209,14 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
-                <%@ page import="javaBeans.UserDTO" %>
+                <%@ page import="javaBeans.User" %>
                 <%@ page import="java.util.List" %>
                 <%@ page import="java.util.ArrayList" %>
 
                 <div class="card shadow mb-4">
                     <div class="card-header py-3"> <!-- 회색 부분 -->
                         <div class="d-flex align-items-center">
-                            <form action="/candidateSearch.jsp" method="post" accept-charset="UTF-8">
+                            <form action="/candidateSearch" method="post" accept-charset="UTF-8">
                                 <label for="searchName">Search by Name:</label>
                                 <input type="text" id="searchName" name="searchName">
                                 <button type="submit" class="btn btn-outline-secondary" >검색</button>
@@ -246,9 +246,9 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <% List<UserDTO> searchResults = (List<UserDTO>) request.getAttribute("searchResults"); %>
+                                <% List<User> searchResults = (List<User>) request.getAttribute("searchResults"); %>
                                 <% if (searchResults != null && !searchResults.isEmpty()) { %>
-                                <% for (UserDTO user : searchResults) { %>
+                                <% for (User user : searchResults) { %>
                                 <tr>
 
 <%--                                    <td><%= user.getMemberNumber() %></td>--%>
@@ -283,7 +283,7 @@
                             </table>
 
                             <% if (searchResults != null && !searchResults.isEmpty()) { %>
-                            <% for (UserDTO user : searchResults) { %>
+                            <% for (User user : searchResults) { %>
 
                             <form action="/updateCandidate" method="post" accept-charset="UTF-8">
                             <table >
