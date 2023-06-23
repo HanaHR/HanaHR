@@ -72,8 +72,18 @@
 
             localStorage.setItem("process", selectedVal);
             localStorage.setItem("count", inputCount);
+
         }
         function removeValue() {
+            // 합격자 추가 폼의 input에 value 저장
+            var hiddenProcess = document.getElementById("hiddenProcess");
+            var hiddenHeadCount = document.getElementById("hiddenHeadCount");
+
+            hiddenProcess.value = localStorage.getItem("process");
+            hiddenHeadCount.value = localStorage.getItem("count");
+            if (hiddenProcess.value !== "" && hiddenHeadCount.value !== "") {
+                alert("합격자 추가가 완료되었습니다.");
+            }
             localStorage.removeItem("process");
             localStorage.removeItem("count");
         }
@@ -219,11 +229,11 @@
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-<%--                        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>--%>
+                        <%--                        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>--%>
                         <h1 class="h3 mb-2 text-gray-800">합격자 선정</h1>
                         <p class="mb-4">진행중인 전형을 선택하고, 선발 인원을 입력하여 합격자를 추가합니다.</p>
                         <hr>
-                        <form action="/pick" method="post" id="picker">
+                        <form action="/pick" method="post" id="picker" style="display: inline-block">
                             <label>
                                 전형분류
                                 <select name="process" class="custom-select custom-select-sm form-control form-control-sm" id="processSelector">
@@ -237,6 +247,10 @@
                                 <input type="text" name="headCount" class="form-control form-control-sm" id="headCountInput">
                             </label>
                             <input type="submit" id="search" value="검색" class="page-link" style="display: inline-block" onclick="saveValue()">
+                        </form>
+                        <form action="/updatePasser" method="post" style="display: inline-block">
+                            <input type="hidden" name="process" value="" id="hiddenProcess">
+                            <input type="hidden" name="headCount" value="" id="hiddenHeadCount">
                             <input type="submit" id="appendPasser" value="합격자 추가" class="page-link" style="display: inline-block" onclick="removeValue()">
                         </form>
                     </div>
@@ -244,7 +258,7 @@
                         <div class="table-responsive">
                             <% List<Map<String, String>> passer = (List<Map<String, String>>)request.getAttribute("passer"); %>
                             <% if (passer != null && !passer.isEmpty()) { %>
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size: 14px;">
                                 <thead>
                                 <tr>
                                     <th>지원자번호</th>
@@ -262,39 +276,29 @@
                                     <th>2차면접합격여부</th>
                                 </tr>
                                 </thead>
-<%--                                <tfoot>--%>
-<%--                                <tr>--%>
-<%--                                    <th>Name</th>--%>
-<%--                                    <th>Position</th>--%>
-<%--                                    <th>Office</th>--%>
-<%--                                    <th>Age</th>--%>
-<%--                                    <th>Start date</th>--%>
-<%--                                    <th>Salary</th>--%>
-<%--                                </tr>--%>
-<%--                                </tfoot>--%>
                                 <tbody>
-                                    <% for ( Map<String, String> psr : passer) { %>
-                                    <tr>
-                                        <td><%= psr.get("지원자번호") %></td>
-                                        <td><%= psr.get("이름") %></td>
-                                        <td><%= psr.get("전공유무").equals("0") ? "비전공자" : "전공자" %></td>
-                                        <td><%= psr.get("전화번호") %></td>
-                                        <td><%= psr.get("이메일") %></td>
-                                        <td><%= psr.get("서류점수") %></td>
-                                        <td><%= psr.get("서류합격여부").equals("0") ? "불합격" : psr.get("서류합격여부").equals("1") ? "합격" : "미진행" %></td>
-                                        <td><%= psr.get("필기점수") %></td>
-                                        <td><%= psr.get("필기합격여부").equals("0") ? "불합격" : psr.get("필기합격여부").equals("1") ? "합격" : "미진행" %></td>
-                                        <td><%= psr.get("1차면접점수") %></td>
-                                        <td><%= psr.get("1차면접합격여부").equals("0") ? "불합격" : psr.get("1차면접합격여부").equals("1") ? "합격" : "미진행" %></td>
-                                        <td><%= psr.get("2차면접점수") %></td>
-                                        <td><%= psr.get("2차면접합격여부").equals("0") ? "불합격" : psr.get("2차면접합격여부").equals("1") ? "합격" : "미진행" %></td>
-                                    </tr>
-                                    <% } %>
-                                    <% } else { %>
-                                    <tr>
-                                        <td colspan="13">검색 결과가 없습니다.</td>
-                                    </tr>
-                                    <% } %>
+                                <% for ( Map<String, String> psr : passer) { %>
+                                <tr>
+                                    <td><%= psr.get("지원자번호") %></td>
+                                    <td><%= psr.get("이름") %></td>
+                                    <td><%= psr.get("전공유무").equals("0") ? "비전공자" : "전공자" %></td>
+                                    <td><%= psr.get("전화번호") %></td>
+                                    <td><%= psr.get("이메일") %></td>
+                                    <td><%= psr.get("서류점수") %></td>
+                                    <td><%= psr.get("서류합격여부").equals("0") ? "불합격" : psr.get("서류합격여부").equals("1") ? "합격" : "미진행" %></td>
+                                    <td><%= psr.get("필기점수") %></td>
+                                    <td><%= psr.get("필기합격여부").equals("0") ? "불합격" : psr.get("필기합격여부").equals("1") ? "합격" : "미진행" %></td>
+                                    <td><%= psr.get("1차면접점수") %></td>
+                                    <td><%= psr.get("1차면접합격여부").equals("0") ? "불합격" : psr.get("1차면접합격여부").equals("1") ? "합격" : "미진행" %></td>
+                                    <td><%= psr.get("2차면접점수") %></td>
+                                    <td><%= psr.get("2차면접합격여부").equals("0") ? "불합격" : psr.get("2차면접합격여부").equals("1") ? "합격" : "미진행" %></td>
+                                </tr>
+                                <% } %>
+                                <% } else { %>
+                                <tr>
+                                    <td colspan="13">검색 결과가 없습니다.</td>
+                                </tr>
+                                <% } %>
                                 </tbody>
                             </table>
                         </div>
