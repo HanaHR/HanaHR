@@ -87,14 +87,14 @@ public class MainController extends HttpServlet {
                 String memberNumber = request.getParameter("memberNumber");
                 user.CandidateDelete(memberNumber);
                 response.sendRedirect("candidateEdit.jsp");
-
+                site = "candidateEdit.jsp";
                 break;
 
             case "/updateCandidate":
                 request.setCharacterEncoding("utf-8");
                 response.setContentType("text/html; charset=utf-8");
                 response.setCharacterEncoding("utf-8");
-                memberNumber = request.getParameter("memberName");
+                memberNumber = request.getParameter("memberNumber");
                 String memberName = request.getParameter("memberName");
                 boolean memberMajor = Boolean.parseBoolean(request.getParameter("memberMajor"));
                 String memberPhone = request.getParameter("memberPhone");
@@ -112,6 +112,7 @@ public class MainController extends HttpServlet {
                 int memberInterview2Score =Integer.parseInt(memberInterview2ScoreStr) ;
                 boolean memberInterview2Pass = Boolean.parseBoolean(request.getParameter("memberInterview2Pass"));
                 user.CandidateUpdate(memberNumber, memberName,memberMajor, memberPhone,memberEmail,memberPaperScore,memberPaperPass,memberWrittenScore,memberWrittenPass, memberInterview1Score,memberInterview1Pass,memberInterview2Score,memberInterview2Pass) ;
+                site = "candidateEdit.jsp";
                 break;
 
             case "/emailServlet":
@@ -124,7 +125,7 @@ public class MainController extends HttpServlet {
                 String emailContent = requestUtils.getParam("emailContent"); // 메일 내용
                 user.CandidateSendmail(selection1, selection2, emailSubject,emailContent);
                 request.setAttribute("resultMessage", "이메일 전송이 완료되었습니다.");
-
+                site = "candidateEmail.jsp";
 
                 break;
 
@@ -142,7 +143,7 @@ public class MainController extends HttpServlet {
                 String phone = request.getParameter("phone");
                 user.CandidateApply(name,email,gender,temp_career,temp_major,birth,address,phone);
                 response.sendRedirect("apply.jsp");
-
+                site = "apply.jsp";
                 break;
 
             case "/candidateStatus":

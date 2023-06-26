@@ -60,6 +60,9 @@ public class UserDAO {
     }
 
     public void updatePasser(List<Map<String, String>> selectedPasser, String process, String headCount) {
+        PreparedStatement pstmt3 = null;
+        PreparedStatement pstmt = null;
+        PreparedStatement pstmt2 = null;
         try {
             // 합격자 score 테이블 각 전형별 Pass 컬럼 값 변경
             String query = "";
@@ -76,7 +79,7 @@ public class UserDAO {
                 query3 = "insert into pass(memberNumber) values (?)";
             }
 
-            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt = connection.prepareStatement(query);
             for (int i = 0; i < selectedPasser.size(); i++) {
                 Map<String, String> candidate = selectedPasser.get(i);
                 int id = Integer.parseInt(candidate.get("지원자번호"));
@@ -84,7 +87,7 @@ public class UserDAO {
                 pstmt.executeUpdate();
 
                 if (query3 != "") {
-                    PreparedStatement pstmt3 = connection.prepareStatement(query3);
+                    pstmt3 = connection.prepareStatement(query3);
                     pstmt3.setInt(1, id);
                     pstmt3.executeUpdate();
                 }
@@ -102,12 +105,38 @@ public class UserDAO {
                 query2 = "update score as s left join (select memberNumber from score order by memberInterview2Score desc limit ?) as p on s.memberNumber = p.memberNumber set s.memberInterview2Pass=0 where p.memberNumber is null";
             }
 
-            PreparedStatement pstmt2 = connection.prepareStatement(query2);
+            pstmt2 = connection.prepareStatement(query2);
             pstmt2.setInt(1, Integer.parseInt(headCount));
             pstmt2.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            // 리소스 해제
+            if (pstmt3 != null) {
+                try {
+                    pstmt3.close();
+                } catch (SQLException e) {
+                    System.out.println("리소스 해제 중 에러: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    System.out.println("리소스 해제 중 에러: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+            if (pstmt2 != null) {
+                try {
+                    pstmt2.close();
+                } catch (SQLException e) {
+                    System.out.println("리소스 해제 중 에러: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -175,6 +204,7 @@ public class UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         System.out.println("Search results: " + searchResults);
         return searchResults;
     }
@@ -223,7 +253,7 @@ public class UserDAO {
     }
 
 
-    protected void CandidateSendmail(String selection1,String selection2,String emailSubject,String emailContent) throws UnsupportedEncodingException {
+    protected void CandidateSendmail(String selection1,String selection2,String emailSubject,String emailContent) throws UnsupportedEncodingException, SQLException {
 
 
 
@@ -239,150 +269,176 @@ public class UserDAO {
         // 조건에 맞는 지원자들의 이메일 주소 가져오기
         List<String> emailList = new ArrayList<>();
 
+        Statement statement = null;
+        ResultSet resultSet = null;
 
-        //서류전형 합격자들의 이메일 가져오기
-        if (selection1.equals("paper") && selection2.equals("pass")) {
-            try {
-                Statement statement = connection.createStatement();
-                String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberPaperPass=1";
-                ResultSet resultSet = statement.executeQuery(sql);
+        try {
+            statement = connection.createStatement();
 
-                while (resultSet.next()) {
-                    String email = resultSet.getString("memberEmail");
-                    emailList.add(email);
+            //서류전형 합격자들의 이메일 가져오기
+            if (selection1.equals("paper") && selection2.equals("pass")) {
+                try {
+                    statement = connection.createStatement();
+                    String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberPaperPass=1";
+                    resultSet = statement.executeQuery(sql);
+
+                    while (resultSet.next()) {
+                        String email = resultSet.getString("memberEmail");
+                        emailList.add(email);
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-        }
 
-        //서류전형 불합격자들의 이메일 가져오기
-        if (selection1.equals("paper") && selection2.equals("fail")) {
-            try {
-                Statement statement = connection.createStatement();
-                String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberPaperPass=0";
-                ResultSet resultSet = statement.executeQuery(sql);
+            //서류전형 불합격자들의 이메일 가져오기
+            if (selection1.equals("paper") && selection2.equals("fail")) {
+                try {
+                    statement = connection.createStatement();
+                    String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberPaperPass=0";
+                    resultSet = statement.executeQuery(sql);
 
-                while (resultSet.next()) {
-                    String email = resultSet.getString("memberEmail");
-                    emailList.add(email);
+                    while (resultSet.next()) {
+                        String email = resultSet.getString("memberEmail");
+                        emailList.add(email);
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-        }
 
-        //필기전형 합격자들의 이메일 가져오기
-        if (selection1.equals("written") && selection2.equals("pass")) {
-            try {
+            //필기전형 합격자들의 이메일 가져오기
+            if (selection1.equals("written") && selection2.equals("pass")) {
+                try {
 
-                Statement statement = connection.createStatement();
-                String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberWrittenPass=1";
-                ResultSet resultSet = statement.executeQuery(sql);
+                    statement = connection.createStatement();
+                    String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberWrittenPass=1";
+                    resultSet = statement.executeQuery(sql);
 
-                while (resultSet.next()) {
-                    String email = resultSet.getString("memberEmail");
-                    emailList.add(email);
+                    while (resultSet.next()) {
+                        String email = resultSet.getString("memberEmail");
+                        emailList.add(email);
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-        }
 
-        //필기전형 불합격자들의 이메일 가져오기
-        if (selection1.equals("written") && selection2.equals("fail")) {
-            try {
+            //필기전형 불합격자들의 이메일 가져오기
+            if (selection1.equals("written") && selection2.equals("fail")) {
+                try {
 
-                Statement statement = connection.createStatement();
-                String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberWrittenPass=0";
-                ResultSet resultSet = statement.executeQuery(sql);
+                    statement = connection.createStatement();
+                    String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberWrittenPass=0";
+                    resultSet = statement.executeQuery(sql);
 
-                while (resultSet.next()) {
-                    String email = resultSet.getString("memberEmail");
-                    emailList.add(email);
+                    while (resultSet.next()) {
+                        String email = resultSet.getString("memberEmail");
+                        emailList.add(email);
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-        }
 
-        //면접1차 합격자들의 이메일 가져오기
-        if (selection1.equals("interview1") && selection2.equals("pass")) {
-            try {
+            //면접1차 합격자들의 이메일 가져오기
+            if (selection1.equals("interview1") && selection2.equals("pass")) {
+                try {
 
-                Statement statement = connection.createStatement();
-                String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberInterview1Pass=1";
-                ResultSet resultSet = statement.executeQuery(sql);
+                    statement = connection.createStatement();
+                    String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberInterview1Pass=1";
+                    resultSet = statement.executeQuery(sql);
 
-                while (resultSet.next()) {
-                    String email = resultSet.getString("memberEmail");
-                    emailList.add(email);
+                    while (resultSet.next()) {
+                        String email = resultSet.getString("memberEmail");
+                        emailList.add(email);
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-        }
 
-        //면접1차 불합격자들의 이메일 가져오기
-        if (selection1.equals("interview1") && selection2.equals("fail")) {
-            try {
+            //면접1차 불합격자들의 이메일 가져오기
+            if (selection1.equals("interview1") && selection2.equals("fail")) {
+                try {
 
-                Statement statement = connection.createStatement();
-                String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberInterview1Pass=0";
-                ResultSet resultSet = statement.executeQuery(sql);
+                    statement = connection.createStatement();
+                    String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberInterview1Pass=0";
+                    resultSet = statement.executeQuery(sql);
 
-                while (resultSet.next()) {
-                    String email = resultSet.getString("memberEmail");
-                    emailList.add(email);
+                    while (resultSet.next()) {
+                        String email = resultSet.getString("memberEmail");
+                        emailList.add(email);
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-        }
 
-        //면접2차 합격자들의 이메일 가져오기
-        if (selection1.equals("interview2") && selection2.equals("pass")) {
-            try {
+            //면접2차 합격자들의 이메일 가져오기
+            if (selection1.equals("interview2") && selection2.equals("pass")) {
+                try {
 
-                Statement statement = connection.createStatement();
-                String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberInterview2Pass=1";
-                ResultSet resultSet = statement.executeQuery(sql);
+                    statement = connection.createStatement();
+                    String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberInterview2Pass=1";
+                    resultSet = statement.executeQuery(sql);
 
-                while (resultSet.next()) {
-                    String email = resultSet.getString("memberEmail");
-                    emailList.add(email);
+                    while (resultSet.next()) {
+                        String email = resultSet.getString("memberEmail");
+                        emailList.add(email);
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-        }
 
-        //면접2차 합격자들의 이메일 가져오기
-        if (selection1.equals("interview2") && selection2.equals("fail")) {
-            try {
+            //면접2차 합격자들의 이메일 가져오기
+            if (selection1.equals("interview2") && selection2.equals("fail")) {
+                try {
 
-                Statement statement = connection.createStatement();
-                String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberInterview2Pass=0";
-                ResultSet resultSet = statement.executeQuery(sql);
+                    statement = connection.createStatement();
+                    String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberInterview2Pass=0";
+                    resultSet = statement.executeQuery(sql);
 
-                while (resultSet.next()) {
-                    String email = resultSet.getString("memberEmail");
-                    emailList.add(email);
+                    while (resultSet.next()) {
+                        String email = resultSet.getString("memberEmail");
+                        emailList.add(email);
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-        }
 
-        out.println(emailList);
+            out.println(emailList);
 
-        // 이메일 전송 로직 구현
-        for (String email : emailList) {
-            // 이메일 전송 코드 작성
-            // email 변수에는 각 지원자의 이메일 주소가 저장되어 있습니다.
-            String subject = "메일 제목";
-            String content = "메일 내용";
-            MailUtils.sendEmail(email, subject, content);
+            // 이메일 전송 로직 구현
+            for (String email : emailList) {
+                // 이메일 전송 코드 작성
+                // email 변수에는 각 지원자의 이메일 주소가 저장되어 있습니다.
+                String subject = "메일 제목";
+                String content = "메일 내용";
+                MailUtils.sendEmail(email, subject, content);
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // 리소스 해제
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    System.out.println("리소스 해제 중 에러: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    System.out.println("리소스 해제 중 에러: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
         }
 
 
@@ -395,39 +451,55 @@ public class UserDAO {
         Connection connection = DB1.getConnection();
 
 
-
-        if(temp_career.equals("yes")){
+        if (temp_career.equals("yes")) {
             career = 1;
-        }
-        else{
+        } else {
             career = 0;
         }
 
-        if(temp_major.equals("yes")){
+        if (temp_major.equals("yes")) {
             major = 1;
-        }
-        else{
+        } else {
             major = 0;
         }
-    try {
-        String query = "INSERT into memberinfo (memberName, memberGender , memberBirth, memberAddress , memberCareer,memberPhone , memberEmail, memberMajor) values (?,?,?,?,?,?,?,?)";
-
         PreparedStatement pstmt = null;
-        pstmt = connection.prepareStatement(query);
+        try {
+            String query = "INSERT into memberinfo (memberName, memberGender , memberBirth, memberAddress , memberCareer,memberPhone , memberEmail, memberMajor) values (?,?,?,?,?,?,?,?)";
 
-        pstmt.setString(1, name);
-        pstmt.setString(2, gender);
-        pstmt.setDate(3, Date.valueOf(birth));
-        pstmt.setString(4, address);
-        pstmt.setInt(5, career);
-        pstmt.setString(6, phone);
-        pstmt.setString(7, email);
-        pstmt.setInt(8, major);
+            pstmt = null;
+            pstmt = connection.prepareStatement(query);
 
-        pstmt.execute();
-    }catch (SQLException e) {
-        e.printStackTrace();
-    }
+            pstmt.setString(1, name);
+            pstmt.setString(2, gender);
+            pstmt.setDate(3, Date.valueOf(birth));
+            pstmt.setString(4, address);
+            pstmt.setInt(5, career);
+            pstmt.setString(6, phone);
+            pstmt.setString(7, email);
+            pstmt.setInt(8, major);
+
+            pstmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // 리소스 해제
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    System.out.println("리소스 해제 중 에러: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    System.out.println("리소스 해제 중 에러: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        }
 
     }
 //    public static void ApplyDao(String name, String gender, String birth, String address, Integer career, String phone, String email, Integer major) throws SQLException {
@@ -455,11 +527,15 @@ public class UserDAO {
 
     public int getCandidatesCount() {
         int totalCount = 0;
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet resultSet = null;
+
         try {
-            Connection connection = DB1.getConnection();
+            connection = DB1.getConnection();
             String query = "SELECT COUNT(memberNumber) AS totalCandidate FROM memberInfo;";
-            PreparedStatement pstmt = connection.prepareStatement(query);
-            ResultSet resultSet = pstmt.executeQuery();
+            pstmt = connection.prepareStatement(query);
+            resultSet = pstmt.executeQuery();
             while (resultSet.next()) {
                 totalCount = resultSet.getInt("totalCandidate");
             }
@@ -467,18 +543,46 @@ public class UserDAO {
         } catch (SQLException e) {
             System.out.println("에러: " + e.getMessage());
             e.printStackTrace();
+        }finally {
+            // 리소스 해제
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    System.out.println("리소스 해제 중 에러: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    System.out.println("리소스 해제 중 에러: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    System.out.println("리소스 해제 중 에러: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
         }
         return totalCount;
     }
     public List<Map<String, String>> viewCandidate() {
         List<Map<String, String>> viewResult = new ArrayList<>();
+        ResultSet resultSet = null;
+        PreparedStatement pstmt = null;
         try {
 
             String query = "SELECT m.memberNumber, m.memberName, m.memberMajor, m.memberPhone, m.memberEmail, s.memberPaperScore, s.memberPaperPass, s.memberWrittenScore, s.memberWrittenPass, s.memberInterview1Score, s.memberInterview1Pass, s.memberInterview2Score, s.memberInterview2Pass " +
                     "from memberInfo as m join score as s on m.memberNumber = s.memberNumber";
 
-            PreparedStatement pstmt = connection.prepareStatement(query);
-            ResultSet resultSet = pstmt.executeQuery();
+            pstmt = connection.prepareStatement(query);
+            resultSet = pstmt.executeQuery();
             while (resultSet.next()) {
                 Map<String, String> hm = new HashMap<>();
                 hm.put("지원자번호", Integer.toString(resultSet.getInt("memberNumber")));
@@ -500,6 +604,24 @@ public class UserDAO {
         } catch (SQLException e) {
             System.out.println("에러: " + e.getMessage());
             e.printStackTrace();
+        } finally {
+            // 리소스 해제
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    System.out.println("리소스 해제 중 에러: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    System.out.println("리소스 해제 중 에러: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
         }
         return viewResult;
     }
