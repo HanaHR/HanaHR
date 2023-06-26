@@ -4,17 +4,17 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
-<!--    <display-name>myapp</display-name>-->
+    <!--    <display-name>myapp</display-name>-->
 
-<!--    <servlet>-->
-<!--        <servlet-name>test</servlet-name>-->
-<!--        <servlet-class>javaDB.MainController</servlet-class>-->
-<!--    </servlet>-->
+    <!--    <servlet>-->
+    <!--        <servlet-name>test</servlet-name>-->
+    <!--        <servlet-class>javaDB.MainController</servlet-class>-->
+    <!--    </servlet>-->
 
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>test</servlet-name>-->
-<!--        <url-pattern>/</url-pattern>-->
-<!--    </servlet-mapping>-->
+    <!--    <servlet-mapping>-->
+    <!--        <servlet-name>test</servlet-name>-->
+    <!--        <url-pattern>/</url-pattern>-->
+    <!--    </servlet-mapping>-->
 
 
 </web-app>
