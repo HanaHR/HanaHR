@@ -19,7 +19,8 @@ public class UserDAO {
 
     public List<Map<String, String>> pickPasser(String process, String headCount){
         List<Map<String, String>> findResult = new ArrayList<>();
-
+        PreparedStatement pstmt = null;
+        ResultSet resultSet = null;
         try {
             String query = "";
             if (process.equals("memberPaperScore")) {
@@ -32,10 +33,10 @@ public class UserDAO {
                 query = "SELECT m.memberNumber, m.memberName, m.memberMajor, m.memberPhone, m.memberEmail, s.memberPaperScore, s.memberPaperPass, s.memberWrittenScore, s.memberWrittenPass, s.memberInterview1Score, s.memberInterview1Pass, s.memberInterview2Score, s.memberInterview2Pass from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberInterview2Score > 0 order by s.memberInterview2Score desc limit ?";
             }
 
-            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt = connection.prepareStatement(query);
             pstmt.setInt(1, Integer.parseInt(headCount));
 
-            ResultSet resultSet = pstmt.executeQuery();
+            resultSet = pstmt.executeQuery();
             while (resultSet.next()){
                 Map<String, String> hm = new HashMap<>();
                 hm.put("지원자번호", Integer.toString(resultSet.getInt("memberNumber")));
@@ -55,6 +56,31 @@ public class UserDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    System.out.println("리소스 해제 중 에러: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    System.out.println("리소스 해제 중 에러: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    System.out.println("리소스 해제 중 에러: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
         }
         return findResult;
     }
