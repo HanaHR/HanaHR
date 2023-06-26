@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "MainController", urlPatterns = {"/main", "/candidateSearch", "/pick", "/deleteCandidate","/updateCandidate","/emailServlet","/apply","/candidateStatus","/login", "/updatePasser"})
+@WebServlet(name = "MainController", urlPatterns = {"/main", "/candidateSearch", "/pick", "/deleteCandidate","/updateCandidate","/emailServlet","/apply","/candidateStatus","/login", "/updatePasser", "/outputPasser"})
 public class MainController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -67,6 +67,11 @@ public class MainController extends HttpServlet {
                     List<Map<String, String>> findResult = user.pickPasser(processUpdate, headCountUpdate);
                     user.updatePasser(findResult, processUpdate, headCountUpdate);
                 }
+                site="candidatePick.jsp";
+                break;
+
+            case "/outputPasser":
+                user.outputPasser();
                 site="candidatePick.jsp";
                 break;
 

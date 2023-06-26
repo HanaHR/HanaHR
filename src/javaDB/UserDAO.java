@@ -23,6 +23,7 @@ public class UserDAO {
         ResultSet resultSet = null;
         try {
             String query = "";
+            queryTime.getStartTime();
             if (process.equals("memberPaperScore")) {
                 query = "SELECT m.memberNumber, m.memberName, m.memberMajor, m.memberPhone, m.memberEmail, s.memberPaperScore, s.memberPaperPass, s.memberWrittenScore, s.memberWrittenPass, s.memberInterview1Score, s.memberInterview1Pass, s.memberInterview2Score, s.memberInterview2Pass from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberPaperScore > 0 order by s.memberPaperScore desc limit ?";
             } else if (process.equals("memberWrittenScore")) {
@@ -37,6 +38,9 @@ public class UserDAO {
             pstmt.setInt(1, Integer.parseInt(headCount));
 
             resultSet = pstmt.executeQuery();
+            queryTime.getStopTime();
+            System.out.println("전형별 지원자 검색 query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
+
             while (resultSet.next()){
                 Map<String, String> hm = new HashMap<>();
                 hm.put("지원자번호", Integer.toString(resultSet.getInt("memberNumber")));
@@ -94,6 +98,7 @@ public class UserDAO {
             String query = "";
             // 합격자 pass 테이블에 합격자 id 추가
             String query3 = "";
+            queryTime.getStartTime();
             if (process.equals("memberPaperScore")) {
                 query = "update score set memberPaperPass=1 where memberNumber = ?";
             } else if (process.equals("memberWrittenScore")) {
@@ -118,9 +123,12 @@ public class UserDAO {
                     pstmt3.executeUpdate();
                 }
             }
+            queryTime.getStopTime();
+            System.out.println("합격자 선정 query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
 
             // 불합격자 score 테이블의 각 전형 Pass 컬럼 값 변경
             String query2 = "";
+            queryTime.getStartTime();
             if (process.equals("memberPaperScore")) {
                 query2 = "update score as s left join (select memberNumber from score order by memberPaperScore desc limit ?) as p on s.memberNumber = p.memberNumber set s.memberPaperPass=0 where p.memberNumber is null";
             } else if (process.equals("memberWrittenScore")) {
@@ -134,6 +142,8 @@ public class UserDAO {
             pstmt2 = connection.prepareStatement(query2);
             pstmt2.setInt(1, Integer.parseInt(headCount));
             pstmt2.executeUpdate();
+            queryTime.getStopTime();
+            System.out.println("불합격자 지정 query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -166,16 +176,51 @@ public class UserDAO {
         }
     }
 
+    public void outputPasser() {
+        try {
+            Connection connection = DB1.getConnection();
+            queryTime.getStartTime();
+
+            // Check if pass table has values
+            String checkQuery = "SELECT COUNT(*) FROM `pass`";
+            PreparedStatement checkStmt = connection.prepareStatement(checkQuery);
+            ResultSet checkResult = checkStmt.executeQuery();
+            queryTime.getStopTime();
+            System.out.println("합격자 DB 유무 확인 query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
+            checkResult.next();
+            int count = checkResult.getInt(1);
+
+            // Execute the try block only if there are values in the pass table
+            if (count > 0) {
+                queryTime.getStartTime();
+                String query = "SELECT memberNumber FROM `pass` INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Passer.csv' FIELDS TERMINATED BY ',' ENCLOSED BY '' LINES TERMINATED BY '\n'";
+                PreparedStatement pstmt = connection.prepareStatement(query);
+                ResultSet resultSet = pstmt.executeQuery();
+                queryTime.getStopTime();
+                System.out.println("합격자 file 생성 query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
+            } else {
+                System.out.println("No values in the 'pass' table.");
+
+            }
+        } catch (SQLException e) {
+            System.out.println("에러: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
     public List<User> searchUsersByName(String name) {
 
         List<User> searchResults = new ArrayList<>();
 
         try {
-
+            queryTime.getStartTime();
             String query = "SELECT * FROM memberinfo WHERE memberName LIKE ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, "%" + name + "%");  // 입력받은 이름으로 부분 일치 검색 수행
             ResultSet resultSet = statement.executeQuery();
+            queryTime.getStopTime();
+            System.out.println("지원자 이름 검색(memberinfo) query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
 
             while (resultSet.next()) {
                 int memberNumber = resultSet.getInt("memberNumber");
@@ -188,11 +233,14 @@ public class UserDAO {
                 String memberPhone = resultSet.getString("memberPhone");
                 boolean memberMajor = resultSet.getBoolean("memberMajor");
 
+                queryTime.getStartTime();
                 // score 테이블에서 정보 가져오기
                 String scoreQuery = "SELECT * FROM score WHERE memberNumber = ?";
                 PreparedStatement scoreStatement = connection.prepareStatement(scoreQuery);
                 scoreStatement.setInt(1, memberNumber);
                 ResultSet scoreResultSet = scoreStatement.executeQuery();
+                queryTime.getStopTime();
+                System.out.println("지원자 이름 검색(score) query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
 
                 int memberPaperScore = 0;
                 int memberWrittenScore = 0;
@@ -245,17 +293,22 @@ public class UserDAO {
             // 데이터베이스 연결 설정
 
             // 삭제 쿼리 Score
-
+            queryTime.getStartTime();
             String deleteScoreQuery = "DELETE FROM score WHERE memberNumber = ?";
             deleteScoreStatement = connection.prepareStatement(deleteScoreQuery);
             deleteScoreStatement.setString(1, memberNumber);
             deleteScoreStatement.executeUpdate();
+            queryTime.getStopTime();
+            System.out.println("지원자 삭제(score) query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
 
             // 삭제 쿼리 memberinfo
+            queryTime.getStartTime();
             String deleteParentQuery = "DELETE FROM memberinfo WHERE memberNumber = ?";
             deleteParentStatement = connection.prepareStatement(deleteParentQuery);
             deleteParentStatement.setString(1, memberNumber);
             deleteParentStatement.executeUpdate();
+            queryTime.getStopTime();
+            System.out.println("지원자 삭제(memberinfo) query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
             // 삭제 작업 완료 후 응답
 
         } catch (Exception e) {
@@ -305,8 +358,11 @@ public class UserDAO {
             if (selection1.equals("paper") && selection2.equals("pass")) {
                 try {
                     statement = connection.createStatement();
+                    queryTime.getStartTime();
                     String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberPaperPass=1";
                     resultSet = statement.executeQuery(sql);
+                    queryTime.getStopTime();
+                    System.out.println("합격자 이메일 찾기 query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
 
                     while (resultSet.next()) {
                         String email = resultSet.getString("memberEmail");
@@ -321,8 +377,12 @@ public class UserDAO {
             if (selection1.equals("paper") && selection2.equals("fail")) {
                 try {
                     statement = connection.createStatement();
+                    queryTime.getStartTime();
                     String sql = "SELECT m.memberEmail from memberInfo as m join score as s on m.memberNumber = s.memberNumber where s.memberPaperPass=0";
                     resultSet = statement.executeQuery(sql);
+                    queryTime.getStopTime();
+                    System.out.println("불합격자 이메일 찾기 query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
+
 
                     while (resultSet.next()) {
                         String email = resultSet.getString("memberEmail");
@@ -490,6 +550,7 @@ public class UserDAO {
         }
         PreparedStatement pstmt = null;
         try {
+            queryTime.getStartTime();
             String query = "INSERT into memberinfo (memberName, memberGender , memberBirth, memberAddress , memberCareer,memberPhone , memberEmail, memberMajor) values (?,?,?,?,?,?,?,?)";
 
             pstmt = null;
@@ -505,7 +566,9 @@ public class UserDAO {
             pstmt.setInt(8, major);
 
             pstmt.execute();
-        } catch (SQLException e) {
+            queryTime.getStopTime();
+            System.out.println("지원서 정보 DB에 넣기 query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
+        }catch (SQLException e) {
             e.printStackTrace();
         } finally {
             // 리소스 해제
@@ -559,9 +622,13 @@ public class UserDAO {
 
         try {
             connection = DB1.getConnection();
-            String query = "SELECT COUNT(memberNumber) AS totalCandidate FROM memberInfo;";
+            queryTime.getStartTime();
+            String query = "SELECT COUNT(*) AS totalCandidate FROM memberInfo;";
             pstmt = connection.prepareStatement(query);
             resultSet = pstmt.executeQuery();
+            queryTime.getStopTime();
+            System.out.println("지원자 수 query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
+
             while (resultSet.next()) {
                 totalCount = resultSet.getInt("totalCandidate");
             }
@@ -603,12 +670,15 @@ public class UserDAO {
         ResultSet resultSet = null;
         PreparedStatement pstmt = null;
         try {
-
+            queryTime.getStartTime();
             String query = "SELECT m.memberNumber, m.memberName, m.memberMajor, m.memberPhone, m.memberEmail, s.memberPaperScore, s.memberPaperPass, s.memberWrittenScore, s.memberWrittenPass, s.memberInterview1Score, s.memberInterview1Pass, s.memberInterview2Score, s.memberInterview2Pass " +
                     "from memberInfo as m join score as s on m.memberNumber = s.memberNumber";
 
             pstmt = connection.prepareStatement(query);
             resultSet = pstmt.executeQuery();
+            queryTime.getStopTime();
+            System.out.println("지원자 DB view query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
+
             while (resultSet.next()) {
                 Map<String, String> hm = new HashMap<>();
                 hm.put("지원자번호", Integer.toString(resultSet.getInt("memberNumber")));
@@ -658,6 +728,7 @@ public class UserDAO {
             // 데이터베이스 연결 설정
             System.out.println("------------------");
             // 업데이트 쿼리 작성 score테이블
+            queryTime.getStartTime();
             String updateScoreQuery = "UPDATE score set memberPaperScore = ?, memberPaperPass = ?, memberWrittenScore = ?, memberWrittenPass = ?, memberInterview1Score = ?, memberInterview1Pass = ?, memberInterview2Score = ?, memberInterview2Pass = ? WHERE memberNumber = ?";
             updateStatement = connection.prepareStatement(updateScoreQuery);
             updateStatement.setInt(1, memberPaperScore);
@@ -673,8 +744,11 @@ public class UserDAO {
             System.out.println(memberNumber);
 
             updateStatement.executeUpdate();
+            queryTime.getStopTime();
+            System.out.println("지원자 정보 수정(score) query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
 
             // 업데이트 쿼리 작성 memberinfo테이블
+            queryTime.getStartTime();
             String updateParentQuery = "UPDATE memberinfo set memberName = ?, memberMajor = ?, memberPhone = ?, memberEmail = ? WHERE memberNumber = ?";
             System.out.println("updateParentQuery: " + updateParentQuery);
             updateStatement = connection.prepareStatement(updateParentQuery);
@@ -684,6 +758,8 @@ public class UserDAO {
             updateStatement.setString(4, memberEmail);
             updateStatement.setString(5, memberNumber);
             updateStatement.executeUpdate();
+            queryTime.getStopTime();
+            System.out.println("지원자 정보 수정(memberinfo) query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
 
             // 업데이트 작업 완료 후 candidateEdit.jsp로 이동
             System.out.println("Search results: " + updateParentQuery);
@@ -713,10 +789,14 @@ public class UserDAO {
         List<Map<String, String>> avgResult = new ArrayList<>();
         try {
             Connection connection = DB1.getConnection();
+            queryTime.getStartTime();
             String query = "SELECT AVG(memberPaperScore) as avgPaperScore, AVG(memberWrittenScore) as avgrWrittenScore,  " +
                     "AVG(memberInterview1Score) as avgInterview1Score, AVG(memberInterview2Score) as avgInterview2Score FROM score;";
             PreparedStatement pstmt = connection.prepareStatement(query);
             ResultSet resultSet = pstmt.executeQuery();
+            queryTime.getStopTime();
+            System.out.println("지원자 평균 query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
+
             while (resultSet.next()) {
                 Map<String, String> hm = new HashMap<>();
                 hm.put("서류전형", Float.toString(resultSet.getFloat("avgPaperScore")));
@@ -742,10 +822,14 @@ public class UserDAO {
         try {
             Connection connection = DB1.getConnection();
             for(int i=0;i<4;i++) {
+                queryTime.getStartTime();
                 String query = "select min(" + columnName1[i] + ") as "+columnName3[i]+" from memberInfo as m join score " +
                         "as s on m.memberNumber = s.memberNumber where s."+columnName2[i]+"=1;";
                 PreparedStatement pstmt = connection.prepareStatement(query);
                 ResultSet resultSet = pstmt.executeQuery();
+                queryTime.getStopTime();
+                System.out.println("지원자 커트라인 " + i + "번째 컬럼 query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
+
                 while (resultSet.next()) {
                     totalCut = resultSet.getInt(columnName3[i]);
                 }
@@ -773,9 +857,12 @@ public class UserDAO {
             }
 
             for(int i=0;i<4;i++) {
+                queryTime.getStartTime();
                 String query2 = "SELECT count(memberNumber) AS countPass from score where "+ columnVarName[i] + "=1;";
                 PreparedStatement pstmt2 = connection.prepareStatement(query2);
                 ResultSet resultSet2 = pstmt2.executeQuery();
+                queryTime.getStopTime();
+                System.out.println("지원자 합격률 " + i + "번째 컬럼 query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
 
                 while (resultSet2.next()) {
                     passCandidate = resultSet2.getInt("countPass");
@@ -816,7 +903,6 @@ public class UserDAO {
     }
 
 }
-
 
 
 

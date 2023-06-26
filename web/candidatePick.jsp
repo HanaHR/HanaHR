@@ -88,6 +88,7 @@
             localStorage.removeItem("count");
         }
 
+
     </script>
 </head>
 
@@ -252,6 +253,9 @@
                             <input type="hidden" name="process" value="" id="hiddenProcess">
                             <input type="hidden" name="headCount" value="" id="hiddenHeadCount">
                             <input type="submit" id="appendPasser" value="합격자 추가" class="page-link" style="display: inline-block" onclick="removeValue()">
+                        </form>
+                        <form action="/outputPasser" method="post" style="display: inline-block">
+                            <input type="submit" id="outPasser" value="최종합격자 파일 다운로드" class="page-link" style="display: inline-block">
                         </form>
                     </div>
                     <div class="card-body">
