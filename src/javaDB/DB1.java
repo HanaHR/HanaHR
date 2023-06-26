@@ -6,7 +6,6 @@ import java.sql.SQLException;
 
 public class DB1 {
     private static final String JDBC_URL = "jdbc:mysql://172.16.20.89:3306/hanahr?useUnicode=true&characterEncoding=utf8";
-
     private static final String USERNAME = "hanaro";
     private static final String PASSWORD = "hanaro6666!";
 
