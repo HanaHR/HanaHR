@@ -115,6 +115,7 @@ public class UserDAO {
                 int id = Integer.parseInt(candidate.get("지원자번호"));
                 pstmt.setInt(1, id);
                 pstmt.executeUpdate();
+                pstmt.clearParameters();
 
                 if (query3 != "") {
                     pstmt3 = connection.prepareStatement(query3);
@@ -277,8 +278,6 @@ public class UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        System.out.println("Search results: " + searchResults);
         return searchResults;
     }
 
@@ -827,6 +826,7 @@ public class UserDAO {
                 PreparedStatement pstmt = connection.prepareStatement(query);
                 ResultSet resultSet = pstmt.executeQuery();
                 queryTime.getStopTime();
+                pstmt.clearParameters();
                 System.out.println("지원자 커트라인 " + i + "번째 컬럼 query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
 
                 while (resultSet.next()) {
@@ -861,6 +861,7 @@ public class UserDAO {
                 PreparedStatement pstmt2 = connection.prepareStatement(query2);
                 ResultSet resultSet2 = pstmt2.executeQuery();
                 queryTime.getStopTime();
+                pstmt2.clearParameters();
                 System.out.println("지원자 합격률 " + i + "번째 컬럼 query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
 
                 while (resultSet2.next()) {
