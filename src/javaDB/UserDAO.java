@@ -182,7 +182,7 @@ public class UserDAO {
             queryTime.getStartTime();
 
             // Check if pass table has values
-            String checkQuery = "SELECT COUNT(*) FROM `pass`";
+            String checkQuery = "SELECT COUNT(memberNumber) FROM `pass`";
             PreparedStatement checkStmt = connection.prepareStatement(checkQuery);
             ResultSet checkResult = checkStmt.executeQuery();
             queryTime.getStopTime();
@@ -623,7 +623,7 @@ public class UserDAO {
         try {
             connection = DB1.getConnection();
             queryTime.getStartTime();
-            String query = "SELECT COUNT(*) AS totalCandidate FROM memberInfo;";
+            String query = "SELECT COUNT(memberNumber) AS totalCandidate FROM memberInfo;";
             pstmt = connection.prepareStatement(query);
             resultSet = pstmt.executeQuery();
             queryTime.getStopTime();
