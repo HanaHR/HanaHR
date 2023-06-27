@@ -91,7 +91,7 @@ public class MainController extends HttpServlet {
             case "/deleteCandidate":
                 String memberNumber = request.getParameter("memberNumber");
                 user.CandidateDelete(memberNumber);
-                response.sendRedirect("candidateEdit.jsp");
+
                 site = "candidateEdit.jsp";
                 break;
 
@@ -135,6 +135,7 @@ public class MainController extends HttpServlet {
                 break;
 
             case "/apply":
+                site = "apply.jsp";
                 request.setCharacterEncoding("utf-8");
                 response.setContentType("text/html; charset=utf-8");
                 response.setCharacterEncoding("utf-8");
@@ -147,8 +148,9 @@ public class MainController extends HttpServlet {
                 String address = request.getParameter("address");
                 String phone = request.getParameter("phone");
                 user.CandidateApply(name,email,gender,temp_career,temp_major,birth,address,phone);
-                response.sendRedirect("apply.jsp");
-                site = "apply.jsp";
+
+
+
                 break;
 
             case "/candidateStatus":
@@ -193,7 +195,14 @@ public class MainController extends HttpServlet {
                 String adminPw = request.getParameter("adminPw");
 
                 user.AdminLogin(adminId,adminPw);
-                response.sendRedirect("candidateStatus");
+                if(user.AdminLogin(adminId,adminPw) == true){
+                    System.out.println("login success");
+                    response.sendRedirect("candidateStatus");
+                }
+                else {
+                    System.out.println("login fail");
+                    response.sendRedirect("/");
+                }
                 site = "index.jsp";
                 return;
 
