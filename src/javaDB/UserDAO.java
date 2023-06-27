@@ -3,7 +3,6 @@ package javaDB;
 import javaBeans.User;
 import javaResources.MailUtils;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpSession;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -876,7 +875,7 @@ public class UserDAO {
         }
         return passResult;
     }
-    public void AdminLogin(String adminId, String adminPw) throws SQLException {
+    public boolean AdminLogin(String adminId, String adminPw) throws SQLException {
         String query = "select * from admin where adminId=? and adminPassword=?";
 
         PreparedStatement pstmt = connection.prepareStatement(query);
@@ -897,9 +896,29 @@ public class UserDAO {
             throw new RuntimeException(e);
         }
 
+        try {
+            ResultSet resultSet = pstmt.executeQuery();
 
 
+            // 로그인 실패 시
 
+            if(resultSet.next() == true){
+                return true;
+            }
+
+            // 로그인 성공 시
+
+            else{
+                System.out.println("login success");
+
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return false;
     }
 
 }
