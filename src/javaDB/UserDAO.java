@@ -20,6 +20,7 @@ public class UserDAO {
     public List<Map<String, String>> pickPasser(String process, String headCount){
         List<Map<String, String>> findResult = new ArrayList<>();
         PreparedStatement pstmt = null;
+//        PreparedStatement infoPstmt = null;
         ResultSet resultSet = null;
         try {
             String query = "";
@@ -38,8 +39,6 @@ public class UserDAO {
             pstmt.setInt(1, Integer.parseInt(headCount));
 
             resultSet = pstmt.executeQuery();
-            queryTime.getStopTime();
-            System.out.println("전형별 지원자 검색 query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
 
             while (resultSet.next()){
                 Map<String, String> hm = new HashMap<>();
@@ -58,6 +57,59 @@ public class UserDAO {
                 hm.put("2차면접합격여부", Integer.toString(resultSet.getInt("memberInterview2Pass")));
                 findResult.add(hm);
             }
+            queryTime.getStopTime();
+            System.out.println("전형별 지원자 검색 query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
+
+                // 조인하지 않고 쿼리문 나눠서 작성하는 방법
+//            String passQuery = "";
+//            queryTime.getStartTime();
+//
+//            if (process.equals("memberPaperScore")) {
+//                passQuery = "select memberNumber, memberPaperScore, memberPaperPass, memberWrittenScore, memberWrittenPass, memberInterview1Score, memberInterview1Pass, memberInterview2Score, memberInterview2Pass from score where memberPaperScore > 0 order by memberPaperScore desc limit ?";
+//            } else if (process.equals("memberWrittenScore")) {
+//                passQuery = "select memberNumber, memberPaperScore, memberPaperPass, memberWrittenScore, memberWrittenPass, memberInterview1Score, memberInterview1Pass, memberInterview2Score, memberInterview2Pass from score where memberWrittenScore > 0 order by memberWrittenScore desc limit ?";
+//            } else if (process.equals("memberInterview1Score")) {
+//                passQuery = "select memberNumber, memberPaperScore, memberPaperPass, memberWrittenScore, memberWrittenPass, memberInterview1Score, memberInterview1Pass, memberInterview2Score, memberInterview2Pass from score where memberInterview1Score > 0 order by memberInterview1Score desc limit ?";
+//            } else {
+//                passQuery = "select memberNumber, memberPaperScore, memberPaperPass, memberWrittenScore, memberWrittenPass, memberInterview1Score, memberInterview1Pass, memberInterview2Score, memberInterview2Pass from score where memberInterview2Score > 0 order by memberInterview2Score desc limit ?";
+//            }
+//
+//            pstmt = connection.prepareStatement(passQuery);
+//            pstmt.setInt(1, Integer.parseInt(headCount));
+//
+//            resultSet = pstmt.executeQuery();
+//
+//            while (resultSet.next()) {
+//
+//                int num = resultSet.getInt("memberNumber");
+//
+//                Map<String, String> hm = new HashMap<>();
+//                hm.put("지원자번호", Integer.toString(num));
+//                hm.put("서류점수", Integer.toString(resultSet.getInt("memberPaperScore")));
+//                hm.put("서류합격여부", Integer.toString(resultSet.getInt("memberPaperPass")));
+//                hm.put("필기점수", Integer.toString(resultSet.getInt("memberWrittenScore")));
+//                hm.put("필기합격여부", Integer.toString(resultSet.getInt("memberWrittenPass")));
+//                hm.put("1차면접점수", Integer.toString(resultSet.getInt("memberInterview1Score")));
+//                hm.put("1차면접합격여부", Integer.toString(resultSet.getInt("memberInterview1Pass")));
+//                hm.put("2차면접점수", Integer.toString(resultSet.getInt("memberInterview2Score")));
+//                hm.put("2차면접합격여부", Integer.toString(resultSet.getInt("memberInterview2Pass")));
+//
+//                String infoQuery = "";
+//                infoQuery = "";
+//                infoPstmt = connection.prepareStatement(infoQuery);
+//                infoPstmt.setInt(1, num);
+//                ResultSet infoResultset = infoPstmt.executeQuery();
+//                while (infoResultset.next()) {
+//                    hm.put("이름", infoResultset.getString("memberName"));
+//                    hm.put("전공유무", Integer.toString(infoResultset.getInt("memberMajor")));
+//                    hm.put("전화번호", infoResultset.getString("memberPhone"));
+//                    hm.put("이메일", infoResultset.getString("memberEmail"));
+//                }
+//                findResult.add(hm);
+//            }
+//            queryTime.getStopTime();
+//            System.out.println("전형별 지원자 검색 query: " + ((double) queryTime.getElapsedTime()) / 1000000000 + "초");
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
