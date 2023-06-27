@@ -217,7 +217,7 @@ public class UserDAO {
             queryTime.getStartTime();
             String query = "SELECT * FROM memberinfo WHERE memberName LIKE ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, "%" + name + "%");  // 입력받은 이름으로 부분 일치 검색 수행
+            statement.setString(1, name + "%");  // 입력받은 이름으로 부분 일치 검색 수행
             ResultSet resultSet = statement.executeQuery();
             queryTime.getStopTime();
             System.out.println("지원자 이름 검색(memberinfo) query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
