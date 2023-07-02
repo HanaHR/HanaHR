@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="HanaHR">
-    <output-path>$PROJECT_DIR$/out/artifacts/HanaHR</output-path>
-    <root id="archive" name="HanaHR.war">
-      <element id="artifact" artifact-name="HanaHR:war exploded" />
-    </root>
-  </artifact>
-</component>

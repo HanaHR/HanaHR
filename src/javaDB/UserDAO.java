@@ -111,32 +111,33 @@ public class UserDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (resultSet != null) {
-                try {
-                    resultSet.close();
-                } catch (SQLException e) {
-                    System.out.println("리소스 해제 중 에러: " + e.getMessage());
-                    e.printStackTrace();
-                }
-            }
-            if (pstmt != null) {
-                try {
-                    pstmt.close();
-                } catch (SQLException e) {
-                    System.out.println("리소스 해제 중 에러: " + e.getMessage());
-                    e.printStackTrace();
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    System.out.println("리소스 해제 중 에러: " + e.getMessage());
-                    e.printStackTrace();
-                }
-            }
         }
+//        finally {
+//            if (resultSet != null) {
+//                try {
+//                    resultSet.close();
+//                } catch (SQLException e) {
+//                    System.out.println("리소스 해제 중 에러: " + e.getMessage());
+//                    e.printStackTrace();
+//                }
+//            }
+//            if (pstmt != null) {
+//                try {
+//                    pstmt.close();
+//                } catch (SQLException e) {
+//                    System.out.println("리소스 해제 중 에러: " + e.getMessage());
+//                    e.printStackTrace();
+//                }
+//            }
+//            if (connection != null) {
+//                try {
+//                    connection.close();
+//                } catch (SQLException e) {
+//                    System.out.println("리소스 해제 중 에러: " + e.getMessage());
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
         return findResult;
     }
 
@@ -158,7 +159,7 @@ public class UserDAO {
                 query = "update score set memberInterview1Pass=1 where memberNumber = ?";
             } else {
                 query = "update score set memberInterview2Pass=1 where memberNumber = ?";
-                query3 = "insert into pass(memberNumber) values (?)";
+                query3 = "insert into pass(memberNumber,memberName, memberPhone) select memberNumber,memberName, memberPhone from memberinfo where memberNumber = ?";
             }
 
             pstmt = connection.prepareStatement(query);
@@ -199,7 +200,8 @@ public class UserDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
+        }
+        finally {
             // 리소스 해제
             if (pstmt3 != null) {
                 try {
@@ -245,7 +247,7 @@ public class UserDAO {
             // Execute the try block only if there are values in the pass table
             if (count > 0) {
                 queryTime.getStartTime();
-                String query = "SELECT memberNumber FROM `pass` INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Passer.csv' FIELDS TERMINATED BY ',' ENCLOSED BY '' LINES TERMINATED BY '\n'";
+                String query = "SELECT memberNumber,memberName, memberPhone FROM `pass` INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Passer.csv' FIELDS TERMINATED BY ',' ENCLOSED BY '' LINES TERMINATED BY '\n'";
                 PreparedStatement pstmt = connection.prepareStatement(query);
                 ResultSet resultSet = pstmt.executeQuery();
                 queryTime.getStopTime();
@@ -551,8 +553,8 @@ public class UserDAO {
             for (String email : emailList) {
                 // 이메일 전송 코드 작성
                 // email 변수에는 각 지원자의 이메일 주소가 저장되어 있습니다.
-                String subject = "메일 제목";
-                String content = "메일 내용";
+                String subject = emailSubject;
+                String content = emailContent;
                 MailUtils.sendEmail(email, subject, content);
             }
         }catch (SQLException e) {

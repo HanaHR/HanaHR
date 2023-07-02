@@ -227,7 +227,7 @@
                                     <td> <%=request.getAttribute("result4-4")%> </td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">합격률</th>
+                                    <th scope="row">합격률(%)</th>
                                     <td> <%= request.getAttribute("result5-1") %> </td>  <!--서류 평균점수-->
                                     <td> <%= request.getAttribute("result5-2") %> </td>
                                     <td> <%= request.getAttribute("result5-3") %> </td>

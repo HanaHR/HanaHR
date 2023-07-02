@@ -43,6 +43,11 @@
             color: #1cc88a;
             border-color: #1cc88a;
         }
+        #sendEmailButton:hover {
+            color: #fff;
+            border-color: #1cc88a;
+            background-color: #1cc88a;
+        }
     </style>
 
 </head>
