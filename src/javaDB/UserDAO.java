@@ -353,7 +353,7 @@ public class UserDAO {
             queryTime.getStopTime();
             System.out.println("지원자 삭제(score) query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
 
-            // 삭제 쿼리 memberinfo
+// 삭제 쿼리 memberinfo
             queryTime.getStartTime();
             String deleteParentQuery = "DELETE FROM memberinfo WHERE memberNumber = ?";
             deleteParentStatement = connection.prepareStatement(deleteParentQuery);
@@ -361,6 +361,7 @@ public class UserDAO {
             deleteParentStatement.executeUpdate();
             queryTime.getStopTime();
             System.out.println("지원자 삭제(memberinfo) query: " + ((double) queryTime.getElapsedTime()) / 1000000000 +"초");
+
             // 삭제 작업 완료 후 응답
 
         } catch (Exception e) {

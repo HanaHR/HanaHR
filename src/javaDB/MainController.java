@@ -20,11 +20,127 @@ import java.util.Map;
 public class MainController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int count = 0;
+        int first = 0;
+        int second = 0;
+        int third = 0;
         request.setCharacterEncoding("UTF-8");
-        try {
-            requestPro(request, response);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        if (request.getRequestURI().equals("/apply")) {
+            // 라운드 로빈 - 차례대로 균등하게 배분
+            if(request.getServerPort()==1000){
+                count += 1;
+            }
+            if(count%3 == 0){
+                response.sendRedirect("http://localhost:7070");
+                System.out.println("port is 7070: " + count);
+            }
+            else if(count%3==1){
+                response.sendRedirect("http://localhost:8080");
+                System.out.println("port is 8080 : " + count);
+            }
+            else{
+                response.sendRedirect("http://localhost:9090");
+                System.out.println("port is 9090 : " + count);
+            }
+            // 최소 연결 방식 - 연결 개수가 최소인 포트로 연결됌
+    /*
+    if (request.getServerPort() == 1000) {
+        if (first<=second) {
+            // first 가 최소일 때
+            if (first<=third) {
+                first += 1;
+                response.sendRedirect(“http://localhost:7070”);
+                System.out.println(“port is 7070: ” + first);
+            }
+            // third가 최소일 때
+            else {
+                third += 1;
+                response.sendRedirect(“http://localhost:9090”);
+                System.out.println(“port is 9090 : ” + third);
+            }
+        } else {
+            // second 가 최소일 때
+            if (second<=third) {
+                second += 1;
+                response.sendRedirect(“http://localhost:8080”);
+                System.out.println(“port is 8080 : ” + second);
+            }
+            // third 가 최소일 때
+            else {
+                third += 1;
+                response.sendRedirect(“http://localhost:9090”);
+                System.out.println(“port is 9090 : ” + third);
+            }
+        }
+    }
+    */
+            // 최소 리스폰타임
+    /*
+    if (request.getServerPort() == 1000) {
+        // 7070 포트 확인
+        String url1 = “http://localhost:7070”;
+        URL requestUrl1 = new URL(url1);
+        HttpURLConnection connection1 = (HttpURLConnection) requestUrl1.openConnection();
+        connection1.setRequestMethod(“GET”);
+        double startTime1 = System.currentTimeMillis();
+        connection1.connect();
+        double endTime1 = System.currentTimeMillis();
+        double responseTime1 = endTime1 - startTime1;
+        connection1.disconnect();
+        // 8080 포트 확인
+        String url2 = “http://localhost:8080”;
+        URL requestUrl2 = new URL(url2);
+        // HttpURLConnection 객체 생성 및 설정
+        HttpURLConnection connection2 = (HttpURLConnection) requestUrl1.openConnection();
+        connection2.setRequestMethod(“GET”);
+        double startTime2 = System.currentTimeMillis();
+        connection2.connect();
+        double endTime2 = System.currentTimeMillis();
+        double responseTime2 = endTime2 - startTime2;
+        connection2.disconnect();
+        // 9090 포트 확인
+        String url3 = “http://localhost:9090”;
+        URL requestUrl3 = new URL(url3);
+        HttpURLConnection connection3 = (HttpURLConnection) requestUrl1.openConnection();
+        connection3.setRequestMethod(“GET”);
+        double startTime3 = System.currentTimeMillis();
+        connection3.connect();
+        double endTime3 = System.currentTimeMillis();
+        double responseTime3 = endTime3 - startTime3;
+        connection3.disconnect();
+        // 최소 응답 시간 찾기
+        if (responseTime1<=responseTime2) {
+            // first 가 최소일 때
+            if (responseTime1<=responseTime3) {
+                response.sendRedirect(“http://localhost:7070”);
+                System.out.println(“port is 7070: ” + responseTime1);
+            }
+            // third가 최소일 때
+            else {
+                response.sendRedirect(“http://localhost:9090”);
+                System.out.println(“port is 9090 : ” + responseTime3);
+            }
+        } else {
+            // second 가 최소일 때
+            if (second<=responseTime3) {
+                response.sendRedirect(“http://localhost:8080”);
+                System.out.println(“port is 8080 : ” + responseTime2);
+            }
+            // third 가 최소일 때
+            else {
+                response.sendRedirect(“http://localhost:9090”);
+                System.out.println(“port is 9090 : ” + responseTime3);
+            }
+        }
+    }
+    */
+        }
+    else{
+            try {
+                requestPro(request, response);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
